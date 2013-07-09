@@ -1,6 +1,8 @@
 Week 1
-	- Parse MIDI file
-	- Determine notes
+	- Parse MIDI file, show data
+	- Determine notes and lengths for data
+		- http://stackoverflow.com/questions/3850688/reading-midi-files-in-java
+	- Show working code toward machine learning
 	- Playback?
 Week 2
 	- Machine Learning Research
