@@ -1,0 +1,8 @@
+Week 1
+	- Parse MIDI file
+	- Determine notes
+	- Playback?
+Week 2
+	- Machine Learning Research
+	- Music Theory Research
+	- Create Learning Model
