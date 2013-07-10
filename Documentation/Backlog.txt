@@ -2,6 +2,12 @@ Week 1
 	- Parse MIDI file, show data
 	- Determine notes and lengths for data
 		- http://stackoverflow.com/questions/3850688/reading-midi-files-in-java
+		- http://docs.oracle.com/javase/tutorial/sound/overview-MIDI.html
+			- Tracks are individual instruments
+			- ShortMessages are most common MIDImessages, on/off's contain status byte followed
+				by at most 2 data bytes
+			- MetaData messages contain limited amount of metadata, not always avalible.
+			- More notes taken, see journal.
 	- Show working code toward machine learning
 	- Playback?
 Week 2

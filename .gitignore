@@ -219,5 +219,5 @@ pip-log.txt
 #############
 
 #MIDI Files
-.mid
-.midi
+*.mid
+*.midi

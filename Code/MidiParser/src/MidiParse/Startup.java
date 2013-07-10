@@ -24,7 +24,7 @@ public class Startup
 				for(int eventIndex = 0; eventIndex < track.size(); eventIndex++)
 				{
 					MidiEvent event = track.get(eventIndex);
-					
+					MidiMessage message = event.getMessage();
 				}
 			}
 		} catch (InvalidMidiDataException | IOException e) {
