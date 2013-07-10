@@ -19,7 +19,7 @@ public class Startup
 		final String[] notes = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
 		Sequence seq;
 		try {
-			seq = MidiSystem.getSequence(new File("elise.mid"));
+			seq = MidiSystem.getSequence(new File("Simple Man.mid"));
 			for(Track track : seq.getTracks())
 			{
 				int currentChannel = -1;
@@ -32,17 +32,18 @@ public class Startup
 						ShortMessage a = (ShortMessage)message;
 						int channel = a.getChannel();
 						int velocity = a.getData2();
-						int pitch = (a.getData1() / 12);
-						String note = notes[pitch % 12];
+						int key = a.getData1();
+						int octave = (key/12);
+						String note = notes[key % 12];
 						String status = (a.getCommand() == ShortMessage.NOTE_ON) ? "On" : "Off";
 						
 						if(channel != currentChannel)
 						{
 							currentChannel = channel;
-							System.out.println("\n\nChannel:" + channel + "\n\tNote:" + note + "\\Status:" + status + "\\Velocity:" + velocity);
+							System.out.println("\n\nChannel:" + channel + "\n\tNote:" + note + octave + "\\Status:" + status + "\\Velocity:" + velocity);
 						}
 						else
-							System.out.println("\tNote:" + note + " \\Status:" + status + " \\Velocity:" + velocity);
+							System.out.println("\tNote:" + note + octave + " \\Status:" + status + " \\Velocity:" + velocity);
 					}
 					else if(message instanceof MetaMessage)
 					{
