@@ -9,6 +9,7 @@ Week 1
 			- MetaData messages contain limited amount of metadata, not always avalible.
 			- More notes taken, see journal.
 	- Show working code toward machine learning
+		- Downloaded and watched first 50 mins of machine learning course from StandFord University
 	- Playback?
 Week 2
 	- Machine Learning Research
