@@ -16,10 +16,10 @@ public class Startup
 {
 	public static void main(String[] args)
 	{
-		final String[] notes = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
+		final String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 		Sequence seq;
 		try {
-			seq = MidiSystem.getSequence(new File("Simple Man.mid"));
+			seq = MidiSystem.getSequence(new File("cMajorScaleTreble.mid"));
 			for(Track track : seq.getTracks())
 			{
 				int currentChannel = -1;
@@ -55,6 +55,6 @@ public class Startup
 		} catch (InvalidMidiDataException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 	}
 }
