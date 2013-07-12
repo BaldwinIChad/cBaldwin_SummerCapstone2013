@@ -7,9 +7,10 @@ Week 1
 			- ShortMessages are most common MIDImessages, on/off's contain status byte followed
 				by at most 2 data bytes
 			- MetaData messages contain limited amount of metadata, not always avalible.
-			- More notes taken, see journal.
+			- More notes taken, see journal
 	- Show working code toward machine learning
 		- Downloaded and watched first 50 mins of machine learning course from StandFord University
+			- Took notes on supervised learning and regression problems
 	- Playback?
 Week 2
 	- Machine Learning Research
