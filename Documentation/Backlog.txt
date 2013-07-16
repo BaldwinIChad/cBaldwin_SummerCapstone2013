@@ -14,5 +14,8 @@ Week 1
 	- Playback?
 Week 2
 	- Machine Learning Research
+		- Took more notes on Standford Machine Learning Course (see notebook)
+		- Ideas for simple Machine learning
+		- Detecting scales of one instrument midi, picking out key
 	- Music Theory Research
 	- Create Learning Model
