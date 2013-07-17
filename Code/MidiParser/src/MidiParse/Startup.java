@@ -1,4 +1,4 @@
-package MidiParse;
+package midiParse;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,6 @@ public class Startup
 {
 	public static void main(String[] args)
 	{
-		final String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 		Sequence seq;
 		try {
 			seq = MidiSystem.getSequence(new File("cMajorScaleTreble.mid"));
@@ -34,7 +33,7 @@ public class Startup
 						int velocity = a.getData2();
 						int key = a.getData1();
 						int octave = (key/12);
-						String note = notes[key % 12];
+						String note = Notes.getNoteName(key % 12);
 						String status = (a.getCommand() == ShortMessage.NOTE_ON) ? "On" : "Off";
 						
 						if(channel != currentChannel)
