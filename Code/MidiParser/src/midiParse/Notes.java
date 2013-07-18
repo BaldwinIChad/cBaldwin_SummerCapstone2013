@@ -1,6 +1,7 @@
 package midiParse;
 
 public class Notes {
+	private static final int NUMBEROFNOTES = 12;
 	private static Note[] notes = {
 		new Note("C"),
 		new Note("C#"),
@@ -18,6 +19,16 @@ public class Notes {
 	
 	public static Note getNote(int value) {
 		return notes[value];
+	}
+	
+	public static int getNoteIndex(String note) {
+		int toReturn = -1;
+		
+		for(int i = 0; i < NUMBEROFNOTES; i++)
+			if(notes[i].note().equalsIgnoreCase(note))
+				toReturn = i;
+		
+		return toReturn;
 	}
 	
 	public static String getNoteName(int value) {
