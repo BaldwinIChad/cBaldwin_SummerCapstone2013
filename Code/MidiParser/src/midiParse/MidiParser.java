@@ -14,9 +14,16 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
 public class MidiParser {
-	public void parseFile(String fileName)
+	private final String NOTE_ON = "on";
+	private final String NOTE_OFF = "off";
+	private final int MAX_NOTE_ARRAY_SIZE = 12;
+	ScaleDetector scaleDetector = new ScaleDetector();
+	File saveFile = new File("C:\\Users\\cbaldwin\\Desktop\\MidiOutput.txt");
+	String[] notesForScaleDetection = new String[MAX_NOTE_ARRAY_SIZE];
+	int scaleDetectionIndex = 0;
+	
+	public File parseFile(String fileName)
 	{
-		File saveFile = new File("C:\\Users\\cbaldwin\\Desktop\\MidiOutput.txt");
 		Sequence seq;
 		try {
 			PrintWriter writer = new PrintWriter(saveFile);
@@ -34,14 +41,21 @@ public class MidiParser {
 						int channel = a.getChannel();
 						int velocity = a.getData2();
 						int key = a.getData1();
-						int octave = (key/12);
+						int octave = (key/MAX_NOTE_ARRAY_SIZE);
 						
-						String note = Notes.getNoteName(key % 12);
-						String status = (a.getCommand() == ShortMessage.NOTE_ON) ? "On" : "Off";
+						String note = Notes.getNoteName(key % MAX_NOTE_ARRAY_SIZE);
+						String status = (a.getCommand() == ShortMessage.NOTE_ON) ? NOTE_ON : NOTE_OFF;
 						
 						if(channel != currentChannel) {
 							currentChannel = channel;
 							output = "\r\n\r\nChannel:" + channel + "\r\n\tNote:" + note + octave + "\\Status:" + status + "\\Velocity:" + velocity + "\r\n";
+								if(status.equals(NOTE_ON) && scaleDetectionIndex<MAX_NOTE_ARRAY_SIZE)
+								{
+									 notesForScaleDetection[scaleDetectionIndex] = new Note(note)
+									 scaleDetectionIndex++;
+								}else if(scaleDetectionIndex >= MAX_NOTE_ARRAY_SIZE) {
+									scaleDetector.detectScale(notesForScaleDetection);
+								}
 							System.out.print(output);
 							writer.print(output);
 						}
@@ -64,6 +78,8 @@ public class MidiParser {
 			writer.close();
 		} catch (InvalidMidiDataException | IOException e) {
 			e.printStackTrace();
-		} 
+		}	
+		
+		return saveFile;
 	}
 }

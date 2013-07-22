@@ -16,7 +16,9 @@ public class Startup
 			if(input.equalsIgnoreCase("exit"))
 				isRunning = false;
 			else 
+			{
 				p.parseFile(input + ".mid");
+			}
 			
 			System.out.println("\n\n\n");
 		}

@@ -17,7 +17,12 @@ public class ScaleDetector {
 		{
 			currentNote = notes[i];
 			
-			steps[i - 1] = currentNote. 
+			
 		}
+	}
+
+	public void detectScale(String[] notesForScaleDetection) {
+		// TODO Auto-generated method stub
+		
 	}
 }
