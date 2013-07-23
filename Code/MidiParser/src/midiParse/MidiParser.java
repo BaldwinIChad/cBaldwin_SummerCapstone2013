@@ -49,13 +49,9 @@ public class MidiParser {
 						if(channel != currentChannel) {
 							currentChannel = channel;
 							output = "\r\n\r\nChannel:" + channel + "\r\n\tNote:" + note + octave + "\\Status:" + status + "\\Velocity:" + velocity + "\r\n";
-								if(status.equals(NOTE_ON) && scaleDetectionIndex<MAX_NOTE_ARRAY_SIZE)
-								{
-									 notesForScaleDetection[scaleDetectionIndex] = new Note(note)
-									 scaleDetectionIndex++;
-								}else if(scaleDetectionIndex >= MAX_NOTE_ARRAY_SIZE) {
-									scaleDetector.detectScale(notesForScaleDetection);
-								}
+							
+							if(status.equals(NOTE_ON))detectionSetup(note, octave);
+							
 							System.out.print(output);
 							writer.print(output);
 						}
@@ -81,5 +77,16 @@ public class MidiParser {
 		}	
 		
 		return saveFile;
+	}
+	
+	private void detectionSetup(String note, int octave) {
+		if(scaleDetectionIndex<MAX_NOTE_ARRAY_SIZE)
+		{
+			 notesForScaleDetection[scaleDetectionIndex] = note + ";" + octave + ";";
+			 scaleDetectionIndex++;
+		}else if(scaleDetectionIndex >= MAX_NOTE_ARRAY_SIZE) {
+			scaleDetector.detectScale(notesForScaleDetection);
+			notesForScaleDetection = new String[MAX_NOTE_ARRAY_SIZE];
+		}
 	}
 }

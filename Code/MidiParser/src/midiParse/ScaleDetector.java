@@ -7,7 +7,7 @@ public class ScaleDetector {
 	
 	HashMap<String, float[]> scale = new HashMap<String, float[]>();
 	
-	public void detectScale(Note[] notes)
+	public void detectScale(String[] notes)
 	{
 		Note currentNote = null;
 		Note previousNote = notes[0];
@@ -19,10 +19,5 @@ public class ScaleDetector {
 			
 			
 		}
-	}
-
-	public void detectScale(String[] notesForScaleDetection) {
-		// TODO Auto-generated method stub
-		
 	}
 }
