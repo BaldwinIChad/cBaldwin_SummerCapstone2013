@@ -85,7 +85,7 @@ public class MidiParser {
 			 notesForScaleDetection[scaleDetectionIndex] = note + ";" + octave + ";";
 			 scaleDetectionIndex++;
 		}else if(scaleDetectionIndex >= MAX_NOTE_ARRAY_SIZE) {
-			scaleDetector.detectScale(notesForScaleDetection);
+			//scaleDetector.detectScale(notesForScaleDetection);
 			notesForScaleDetection = new String[MAX_NOTE_ARRAY_SIZE];
 		}
 	}
