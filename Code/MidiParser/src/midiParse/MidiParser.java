@@ -3,6 +3,7 @@ package midiParse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaMessage;
@@ -19,7 +20,7 @@ public class MidiParser {
 	private final int MAX_NOTE_ARRAY_SIZE = 12;
 	ScaleDetector scaleDetector = new ScaleDetector();
 	File saveFile = new File("C:\\Users\\cbaldwin\\Desktop\\MidiOutput.txt");
-	String[] notesForScaleDetection = new String[MAX_NOTE_ARRAY_SIZE];
+	ArrayList<String> notesForScaleDetection = new ArrayList<String>();
 	int scaleDetectionIndex = 0;
 	
 	public File parseFile(String fileName)
@@ -76,18 +77,24 @@ public class MidiParser {
 			e.printStackTrace();
 		}	
 		
-		scaleDetector.detectScale(notesForScaleDetection);
+		System.out.println(scaleDetector.detectScale(getNoteArray()));
 		return saveFile;
+	}
+	
+	private String[] getNoteArray() {
+		String[] elements = new String[notesForScaleDetection.size()];
+		notesForScaleDetection.toArray(elements);
+		return elements;
 	}
 	
 	private void detectionSetup(String note, int octave) {
 		if(scaleDetectionIndex<MAX_NOTE_ARRAY_SIZE)
 		{
-			 notesForScaleDetection[scaleDetectionIndex] = note + ";" + octave + ";";
+			 notesForScaleDetection.add(note + ";" + octave + ";");
 			 scaleDetectionIndex++;
 		}else if(scaleDetectionIndex > MAX_NOTE_ARRAY_SIZE) {
-			scaleDetector.detectScale(notesForScaleDetection);
-			notesForScaleDetection = new String[MAX_NOTE_ARRAY_SIZE];
+			System.out.println(scaleDetector.detectScale(getNoteArray()));
+			notesForScaleDetection.clear();
 		}
 	}
 }

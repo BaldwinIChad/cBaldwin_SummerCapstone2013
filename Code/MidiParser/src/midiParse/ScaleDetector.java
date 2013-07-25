@@ -1,6 +1,7 @@
 package midiParse;
 
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Set;
 
 public class ScaleDetector {
@@ -13,7 +14,7 @@ public class ScaleDetector {
 		
 		Note currentNote = null;
 		Note previousNote = notes[0];
-		float[] steps = new float[notes.length];
+		float[] steps = new float[notes.length - 1];
 		
 		for(int i = 1; i<notes.length; i++)
 		{
@@ -29,10 +30,19 @@ public class ScaleDetector {
 		
 		String toReturn = getClosestScale(steps);
 		
-		//if(toReturn == null)
-			//toReturn = nameScale();
+		if(toReturn == null){
+			toReturn = nameScale();
+			scales.put(toReturn, steps);
+		}
 		
 		return toReturn;
+	}
+	
+	private String nameScale() {
+		Scanner s = new Scanner(System.in);
+		System.out.println("What scale was this?");
+		String name = s.nextLine();
+		return name;
 	}
 	
 	private Note[] convertFormattedString(String[] notesString) {
@@ -49,7 +59,7 @@ public class ScaleDetector {
 	}
 	
 	private float getNoteDistance(Note note) {
-		return (Notes.getNoteIndex(note.note())+1) * note.getOctave();
+		return (note.getOctave() * 10) + Notes.getNoteIndex(note.note());
 	}
 	
 	private String getClosestScale(float[] newScale) {
