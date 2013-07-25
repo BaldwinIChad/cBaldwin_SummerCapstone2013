@@ -19,3 +19,12 @@ Week 2
 		- Detecting scales of one instrument midi, picking out key
 	- Music Theory Research
 	- Create Learning Model
+Week 3
+	- Machine Learning
+		- Scale Detector Working
+			- Buggy comparisons(small fix)
+			- Compares notes based on octave(vertical) and the notes themselves
+		- Need new method to compare artist to one another.
+			- Possible DB backend required
+			- Figure out how music eras sound and to pick them out.
+	
