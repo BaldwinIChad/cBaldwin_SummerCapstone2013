@@ -8,7 +8,7 @@ public class ScaleDetector {
 	
 	HashMap<String, float[]> scales = new HashMap<String, float[]>();
 	
-	public void detectScale(String[] notesString) {
+	public String detectScale(String[] notesString) {
 		Note[] notes = convertFormattedString(notesString);
 		
 		Note currentNote = null;
@@ -22,7 +22,12 @@ public class ScaleDetector {
 			previousNote = currentNote;
 		}
 		
+		String toReturn = getClosestScale(steps);
 		
+		//if(toReturn == null)
+			//toReturn = nameScale();
+		
+		return toReturn;
 	}
 	
 	private Note[] convertFormattedString(String[] notesString) {
@@ -40,12 +45,15 @@ public class ScaleDetector {
 		return Notes.getNoteIndex(note.note()) * note.getOctave();
 	}
 	
-	private boolean getClosestScale(Note[] newScale) {
+	private String getClosestScale(float[] newScale) {
 		Set<String> keys = scales.keySet();
+		String scaleKey = null;
 		
 		for(String key : keys) {
-			compareSteps(scales.get(key), newScale);
+			if(compareSteps(scales.get(key), newScale))
+				scaleKey = key;
 		}
+		return scaleKey;	
 	}
 	
 	private boolean compareSteps(float[] scale, float[] inputScale) {

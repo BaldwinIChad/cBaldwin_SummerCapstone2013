@@ -16,7 +16,7 @@ import javax.sound.midi.Track;
 public class MidiParser {
 	private final String NOTE_ON = "on";
 	private final String NOTE_OFF = "off";
-	private final int MAX_NOTE_ARRAY_SIZE = 12;
+	private final int MAX_NOTE_ARRAY_SIZE = 4;
 	ScaleDetector scaleDetector = new ScaleDetector();
 	File saveFile = new File("C:\\Users\\cbaldwin\\Desktop\\MidiOutput.txt");
 	String[] notesForScaleDetection = new String[MAX_NOTE_ARRAY_SIZE];
@@ -84,8 +84,8 @@ public class MidiParser {
 		{
 			 notesForScaleDetection[scaleDetectionIndex] = note + ";" + octave + ";";
 			 scaleDetectionIndex++;
-		}else if(scaleDetectionIndex >= MAX_NOTE_ARRAY_SIZE) {
-			//scaleDetector.detectScale(notesForScaleDetection);
+		}else if(scaleDetectionIndex > MAX_NOTE_ARRAY_SIZE) {
+			scaleDetector.detectScale(notesForScaleDetection);
 			notesForScaleDetection = new String[MAX_NOTE_ARRAY_SIZE];
 		}
 	}
