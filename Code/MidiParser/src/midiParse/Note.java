@@ -19,6 +19,6 @@ public class Note {
 	}
 	
 	public int getOctave() {
-		return octave;
+ 		return octave;
 	}
 }

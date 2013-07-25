@@ -18,7 +18,12 @@ public class ScaleDetector {
 		for(int i = 1; i<notes.length; i++)
 		{
 			currentNote = notes[i];
-			steps[i - 1] = getNoteDistance(currentNote) - getNoteDistance(previousNote);
+			if(currentNote != null && previousNote != null)
+			{
+				float x = getNoteDistance(currentNote);
+				float y = getNoteDistance(previousNote);
+				steps[i - 1] = x - y;
+			}
 			previousNote = currentNote;
 		}
 		
@@ -34,15 +39,17 @@ public class ScaleDetector {
 		Note[] notes = new Note[notesString.length];
 		
 		for(int i = 0; i<notesString.length;i++){
-			String[] values = notesString[i].split(";");
-			notes[i] = new Note(values[0], Integer.parseInt(values[1]));
+			if(notesString[i] != null){
+				String[] values = notesString[i].split(";");
+				notes[i] = new Note(values[0], Integer.parseInt(values[1]));			
+			}
 		}
 		
 		return notes;
 	}
 	
 	private float getNoteDistance(Note note) {
-		return Notes.getNoteIndex(note.note()) * note.getOctave();
+		return (Notes.getNoteIndex(note.note())+1) * note.getOctave();
 	}
 	
 	private String getClosestScale(float[] newScale) {
