@@ -31,4 +31,6 @@ Week 4
 	- Note Duration
 		- Midi notes contain bytes for the duration of a note
 			- Based on the bpm of the midi
+		- Method Header also contains a ppqn(pulse per quarter note)
+
 	
