@@ -78,6 +78,9 @@ public class MidiParser {
 		}	
 		
 		System.out.println(scaleDetector.detectScale(getNoteArray()));
+		//notesForScaleDetection.clear();
+		notesForScaleDetection = new ArrayList<String>();
+		scaleDetectionIndex = 0;
 		return saveFile;
 	}
 	
@@ -94,7 +97,9 @@ public class MidiParser {
 			 scaleDetectionIndex++;
 		}else if(scaleDetectionIndex > MAX_NOTE_ARRAY_SIZE) {
 			System.out.println(scaleDetector.detectScale(getNoteArray()));
-			notesForScaleDetection.clear();
+			//notesForScaleDetection.clear();
+			notesForScaleDetection = new ArrayList<String>();
+			scaleDetectionIndex = 0;
 		}
 	}
 }

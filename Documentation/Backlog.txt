@@ -22,9 +22,13 @@ Week 2
 Week 3
 	- Machine Learning
 		- Scale Detector Working
-			- Buggy comparisons(small fix)
+			- Buggy comparisons(small fix)-------- FIXED!
 			- Compares notes based on octave(vertical) and the notes themselves
 		- Need new method to compare artist to one another.
 			- Possible DB backend required
 			- Figure out how music eras sound and to pick them out.
+Week 4
+	- Note Duration
+		- Midi notes contain bytes for the duration of a note
+			- Based on the bpm of the midi
 	

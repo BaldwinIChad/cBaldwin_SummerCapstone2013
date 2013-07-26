@@ -76,7 +76,7 @@ public class ScaleDetector {
 	private boolean compareSteps(float[] scale, float[] inputScale) {
 		boolean isSimilar = false;
 		int count = 0;
-		int halfOfScaleSteps = scale.length/2;
+		int halfOfScaleSteps = (int) (scale.length/1.5);
 		
 		for(int i = 0; i < scale.length && i < inputScale.length; i++){
 			if(scale[i] == inputScale[i])
