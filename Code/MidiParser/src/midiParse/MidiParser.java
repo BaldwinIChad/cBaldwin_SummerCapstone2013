@@ -27,9 +27,12 @@ public class MidiParser {
 	ArrayList<String> notesForScaleDetection = new ArrayList<String>();
 	int scaleDetectionIndex = 0;
 	
+	double bpm = 0;
+	
 	public File parseFile(String fileName)
 	{
 		Sequence seq;
+
 		try {
 			PrintWriter writer = new PrintWriter(saveFile);
 			seq = MidiSystem.getSequence(new File(fileName));
@@ -39,6 +42,7 @@ public class MidiParser {
 					MidiEvent event = track.get(eventIndex);
 					MidiMessage message = event.getMessage();
 					String output;
+					long tickSize = seq.getMicrosecondLength() / seq.getTickLength();
 					
 					if(message instanceof ShortMessage) {
 						ShortMessage a = (ShortMessage)message;
@@ -46,6 +50,8 @@ public class MidiParser {
 						int channel = a.getChannel();
 						int velocity = a.getData2();
 						int key = a.getData1();
+						double duration = tickSize * event.getTick();
+						System.out.println("DURATION: " + duration);
 						int octave = (key/MAX_NOTE_ARRAY_SIZE);
 						
 						String note = Notes.getNoteName(key % MAX_NOTE_ARRAY_SIZE);
@@ -72,7 +78,7 @@ public class MidiParser {
 						MetaMessage a = (MetaMessage)message;
 						if(a.getType() == TEMPO_MESSAGE_VALUE)
 						{
-							double bpm = getBPM(a.getData());
+							bpm = getBPM(a.getData());
 							output = "METADATA--------- BPM:" + bpm + "\r\n";
 						}
 						else
@@ -95,6 +101,8 @@ public class MidiParser {
 		return saveFile;
 	}
 	
+	//not actually BPM at the moment, result is in mircoseconds
+	
 	private double getBPM(byte[] b) {
 		char[] hexChars = new char[b.length * 2];
 		int v;
@@ -105,7 +113,7 @@ public class MidiParser {
 		}
 		String hexValue = new String(hexChars);
 		double microSecsPerQuarterNote = Integer.parseInt(hexValue, 16);
-		return (MIRCOSECONDS_IN_MINUTE/microSecsPerQuarterNote);
+		return microSecsPerQuarterNote;
 	}
 	
 	private String[] getNoteArray() {
@@ -121,7 +129,7 @@ public class MidiParser {
 			 scaleDetectionIndex++;
 		}else if(scaleDetectionIndex > MAX_NOTE_ARRAY_SIZE) {
 			System.out.println(scaleDetector.detectScale(getNoteArray()));
-			//notesForScaleDetection.clear();
+			notesForScaleDetection.clear();
 			notesForScaleDetection = new ArrayList<String>();
 			scaleDetectionIndex = 0;
 		}
