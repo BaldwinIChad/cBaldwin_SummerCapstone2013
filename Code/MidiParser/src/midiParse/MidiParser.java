@@ -15,9 +15,13 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
 public class MidiParser {
+	private static final int TEMPO_MESSAGE_VALUE = 81;
+	private static final int MIRCOSECONDS_IN_MINUTE = 60000000;
 	private final String NOTE_ON = "on";
 	private final String NOTE_OFF = "off";
 	private final int MAX_NOTE_ARRAY_SIZE = 12;
+	
+	char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 	ScaleDetector scaleDetector = new ScaleDetector();
 	File saveFile = new File("C:\\Users\\cbaldwin\\Desktop\\MidiOutput.txt");
 	ArrayList<String> notesForScaleDetection = new ArrayList<String>();
@@ -35,7 +39,6 @@ public class MidiParser {
 					MidiEvent event = track.get(eventIndex);
 					MidiMessage message = event.getMessage();
 					String output;
-					
 					
 					if(message instanceof ShortMessage) {
 						ShortMessage a = (ShortMessage)message;
@@ -67,21 +70,14 @@ public class MidiParser {
 					}
 					else if(message instanceof MetaMessage) {
 						MetaMessage a = (MetaMessage)message;
-						if(a.getType() == 81)
+						if(a.getType() == TEMPO_MESSAGE_VALUE)
 						{
-							String res = "";
-							byte[] b = a.getData();
-							for(int i = 0; i < b.length; i++) {
-								String cint = Integer.toString((int)(b[i] & 0xFF));
-								
-								res += cint;
-							}
-							int value = Integer.parseInt(res, 16);
-							System.out.println(value);
+							double bpm = getBPM(a.getData());
+							output = "METADATA--------- BPM:" + bpm + "\r\n";
 						}
-							
-							
-						output = "METADATA--------- " + new String(a.getMessage()) + "\r\n";
+						else
+							output = "METADATA--------- " + new String(a.getMessage()) + "\r\n";
+						
 						System.out.print(output);
 						writer.print(output);
 					}
@@ -97,6 +93,19 @@ public class MidiParser {
 		notesForScaleDetection = new ArrayList<String>();
 		scaleDetectionIndex = 0;
 		return saveFile;
+	}
+	
+	private double getBPM(byte[] b) {
+		char[] hexChars = new char[b.length * 2];
+		int v;
+		for(int i = 0; i < b.length; i++) {
+			v = b[i] & 0xFF;
+			hexChars[i * 2] = hexArray[v >>> 4];
+			hexChars[i * 2 + 1] = hexArray[v & 0x0F];
+		}
+		String hexValue = new String(hexChars);
+		double microSecsPerQuarterNote = Integer.parseInt(hexValue, 16);
+		return (MIRCOSECONDS_IN_MINUTE/microSecsPerQuarterNote);
 	}
 	
 	private String[] getNoteArray() {
