@@ -36,6 +36,7 @@ public class MidiParser {
 					MidiMessage message = event.getMessage();
 					String output;
 					
+					
 					if(message instanceof ShortMessage) {
 						ShortMessage a = (ShortMessage)message;
 						
@@ -66,6 +67,20 @@ public class MidiParser {
 					}
 					else if(message instanceof MetaMessage) {
 						MetaMessage a = (MetaMessage)message;
+						if(a.getType() == 81)
+						{
+							String res = "";
+							byte[] b = a.getData();
+							for(int i = 0; i < b.length; i++) {
+								String cint = Integer.toString((int)(b[i] & 0xFF));
+								
+								res += cint;
+							}
+							int value = Integer.parseInt(res, 16);
+							System.out.println(value);
+						}
+							
+							
 						output = "METADATA--------- " + new String(a.getMessage()) + "\r\n";
 						System.out.print(output);
 						writer.print(output);
