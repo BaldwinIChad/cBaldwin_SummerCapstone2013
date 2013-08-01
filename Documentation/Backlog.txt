@@ -35,5 +35,10 @@ Week 4
 		- Found vague formula to obtain the duration of a MIDI note
 		- Obtained BPM of track
 		- Associating Ticks with lengths of microseconds
+Next Week
+	- Find out how different era differ
+	- What music information I can use besides chords, scales and note duration to 
+		determine era
+	- Get information for a whole song made with a multitude of instruments
 		
 	
