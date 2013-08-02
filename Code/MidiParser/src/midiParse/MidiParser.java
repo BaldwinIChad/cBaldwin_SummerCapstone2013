@@ -20,13 +20,16 @@ public class MidiParser {
 	private final String NOTE_ON = "on";
 	private final String NOTE_OFF = "off";
 	private final int MAX_NOTE_ARRAY_SIZE = 12;
+	private final char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 	
-	char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 	ScaleDetector scaleDetector = new ScaleDetector();
 	File saveFile = new File("C:\\Users\\cbaldwin\\Desktop\\MidiOutput.txt");
-	ArrayList<String> notesForScaleDetection = new ArrayList<String>();
-	int scaleDetectionIndex = 0;
 	
+	ArrayList<String> notesForScaleDetection = new ArrayList<String>();
+	PrintWriter writer;
+	
+	int scaleDetectionIndex;
+	int currentChannel;
 	double bpm = 0;
 	
 	public File parseFile(String fileName)
@@ -34,59 +37,18 @@ public class MidiParser {
 		Sequence seq;
 
 		try {
-			PrintWriter writer = new PrintWriter(saveFile);
+			writer = new PrintWriter(saveFile);
 			seq = MidiSystem.getSequence(new File(fileName));
 			for(Track track : seq.getTracks()) {
-				int currentChannel = -1;
+				currentChannel = -1;
 				for(int eventIndex = 0; eventIndex < track.size(); eventIndex++) {
 					MidiEvent event = track.get(eventIndex);
 					MidiMessage message = event.getMessage();
-					String output;
-					long tickSize = seq.getMicrosecondLength() / seq.getTickLength();
 					
-					if(message instanceof ShortMessage) {
-						ShortMessage a = (ShortMessage)message;
-						
-						int channel = a.getChannel();
-						int velocity = a.getData2();
-						int key = a.getData1();
-						double duration = tickSize * event.getTick();
-						System.out.println("DURATION: " + duration);
-						int octave = (key/MAX_NOTE_ARRAY_SIZE);
-						
-						String note = Notes.getNoteName(key % MAX_NOTE_ARRAY_SIZE);
-						String status = (a.getCommand() == ShortMessage.NOTE_ON) ? NOTE_ON : NOTE_OFF;
-						if(status.equals(NOTE_ON))detectionSetup(note, octave);
-						
-						if(channel != currentChannel) {
-							currentChannel = channel;
-							output = "\r\n\r\nChannel:" + channel + "\r\n\tNote:" + note + octave + "\\Status:" + status + "\\Velocity:" + velocity + "\r\n";
-							
-							
-							System.out.print(output);
-							writer.print(output);
-						}
-						else {
-							output = "\tNote:" + note + octave + " \\Status:" + status + " \\Velocity:" + velocity + "\r\n";
-							System.out.print(output);
-							writer.print(output);
-						}
-						
-						writer.flush();
-					}
-					else if(message instanceof MetaMessage) {
-						MetaMessage a = (MetaMessage)message;
-						if(a.getType() == TEMPO_MESSAGE_VALUE)
-						{
-							bpm = getBPM(a.getData());
-							output = "METADATA--------- BPM:" + bpm + "\r\n";
-						}
-						else
-							output = "METADATA--------- " + new String(a.getMessage()) + "\r\n";
-						
-						System.out.print(output);
-						writer.print(output);
-					}
+					if(message instanceof ShortMessage) 
+						parseShortMessage((ShortMessage)message, currentChannel);
+					else if(message instanceof MetaMessage)
+						parseMetaMessage((MetaMessage)message);
 				}
 			}
 			writer.close();
@@ -101,6 +63,51 @@ public class MidiParser {
 		return saveFile;
 	}
 	
+	private String parseShortMessage(ShortMessage m, int currentChannel)
+	{
+		String output = "";
+		
+		int channel = m.getChannel();
+		int velocity = m.getData2();
+		int key = m.getData1();
+		int octave = (key/MAX_NOTE_ARRAY_SIZE);
+		
+		String note = Notes.getNoteName(key % MAX_NOTE_ARRAY_SIZE);
+		String status = (m.getCommand() == ShortMessage.NOTE_ON) ? NOTE_ON : NOTE_OFF;
+		if(status.equals(NOTE_ON))detectionSetup(note, octave);
+		
+		if(channel != currentChannel) {
+			currentChannel = channel;
+			output = "\r\n\r\nChannel:" + channel + "\r\n\tNote:" + note + octave + "\\Status:" + status + "\\Velocity:" + velocity + "\r\n";
+		}
+		else 
+			output = "\tNote:" + note + octave + " \\Status:" + status + " \\Velocity:" + velocity + "\r\n";
+	
+		System.out.print(output);
+		writer.print(output);
+		writer.flush();
+		
+		return output;
+	}
+	
+	private String parseMetaMessage(MetaMessage m) {
+		String output = "";
+		
+		if(m.getType() == TEMPO_MESSAGE_VALUE)
+		{
+			bpm = getBPM(m.getData());
+			output = "METADATA--------- BPM:" + bpm + "\r\n";
+		}
+		else
+			output = "METADATA--------- " + new String(m.getMessage()) + "\r\n";
+		
+		System.out.print(output);
+		writer.print(output);
+		writer.flush();
+		
+		return output;
+	}
+	
 	//not actually BPM at the moment, result is in mircoseconds
 	
 	private double getBPM(byte[] b) {
@@ -113,7 +120,7 @@ public class MidiParser {
 		}
 		String hexValue = new String(hexChars);
 		double microSecsPerQuarterNote = Integer.parseInt(hexValue, 16);
-		return microSecsPerQuarterNote;
+		return MIRCOSECONDS_IN_MINUTE/microSecsPerQuarterNote;
 	}
 	
 	private String[] getNoteArray() {
