@@ -32,6 +32,8 @@ public class MidiParser {
 	int currentChannel;
 	double bpm = 0;
 	
+	double duration;
+	
 	public File parseFile(String fileName)
 	{
 		Sequence seq;
@@ -45,8 +47,18 @@ public class MidiParser {
 					MidiEvent event = track.get(eventIndex);
 					MidiMessage message = event.getMessage();
 					
-					if(message instanceof ShortMessage) 
+					System.out.println();
+					
+					if(message instanceof ShortMessage) {
+						if(((ShortMessage) message).getCommand() == ShortMessage.NOTE_ON)
+							duration = (event.getTick() * bpm) / MIRCOSECONDS_IN_MINUTE;
+						else {
+							double d =(event.getTick() * bpm) / MIRCOSECONDS_IN_MINUTE;
+							System.out.println(d - duration);
+						}
+							
 						parseShortMessage((ShortMessage)message, currentChannel);
+					}
 					else if(message instanceof MetaMessage)
 						parseMetaMessage((MetaMessage)message);
 				}
@@ -120,7 +132,7 @@ public class MidiParser {
 		}
 		String hexValue = new String(hexChars);
 		double microSecsPerQuarterNote = Integer.parseInt(hexValue, 16);
-		return MIRCOSECONDS_IN_MINUTE/microSecsPerQuarterNote;
+		return microSecsPerQuarterNote;
 	}
 	
 	private String[] getNoteArray() {
