@@ -17,6 +17,7 @@ import javax.sound.midi.Track;
 public class MidiParser {
 	private static final int TEMPO_MESSAGE_VALUE = 81;
 	private static final int MIRCOSECONDS_IN_MINUTE = 60000000;
+	private static final int MICROSECONDS_IN_SECOND = 1000000;
 	private final String NOTE_ON = "on";
 	private final String NOTE_OFF = "off";
 	private final int MAX_NOTE_ARRAY_SIZE = 12;
@@ -31,8 +32,10 @@ public class MidiParser {
 	int scaleDetectionIndex;
 	int currentChannel;
 	double bpm = 0;
-	
-	double duration;
+	double ppqn = 0;
+	double microsecsPerQuarterNote = 0;
+	double previousTotalDuration = 0.0;
+	double songDuration = 0.0;
 	
 	public File parseFile(String fileName)
 	{
@@ -46,23 +49,17 @@ public class MidiParser {
 				for(int eventIndex = 0; eventIndex < track.size(); eventIndex++) {
 					MidiEvent event = track.get(eventIndex);
 					MidiMessage message = event.getMessage();
-					
-					System.out.println();
-					
-					if(message instanceof ShortMessage) {
-						if(((ShortMessage) message).getCommand() == ShortMessage.NOTE_ON)
-							duration = (event.getTick() * bpm) / MIRCOSECONDS_IN_MINUTE;
-						else {
-							double d =(event.getTick() * bpm) / MIRCOSECONDS_IN_MINUTE;
-							System.out.println(d - duration);
-						}
+					ppqn = seq.getResolution();
 							
+					if(message instanceof ShortMessage) {
 						parseShortMessage((ShortMessage)message, currentChannel);
+						getEventDuration(event.getTick());
 					}
 					else if(message instanceof MetaMessage)
 						parseMetaMessage((MetaMessage)message);
 				}
 			}
+			System.out.println("TOTAL: " + songDuration);
 			writer.close();
 		} catch (InvalidMidiDataException | IOException e) {
 			e.printStackTrace();
@@ -102,6 +99,21 @@ public class MidiParser {
 		return output;
 	}
 	
+	private double getEventDuration(long ticks){
+		double numQuarterNotes = ticks/ppqn;
+		double totalDuration = (numQuarterNotes * microsecsPerQuarterNote) / MICROSECONDS_IN_SECOND;
+		double duration = totalDuration - previousTotalDuration;
+		songDuration = totalDuration;
+		previousTotalDuration = totalDuration;
+		
+		String output = ("\tDURATION: " + duration);
+		System.out.println(output);
+		writer.write(output);
+		writer.flush();
+		
+		return duration;
+	}
+	
 	private String parseMetaMessage(MetaMessage m) {
 		String output = "";
 		
@@ -131,8 +143,8 @@ public class MidiParser {
 			hexChars[i * 2 + 1] = hexArray[v & 0x0F];
 		}
 		String hexValue = new String(hexChars);
-		double microSecsPerQuarterNote = Integer.parseInt(hexValue, 16);
-		return microSecsPerQuarterNote;
+		microsecsPerQuarterNote = Integer.parseInt(hexValue, 16);
+		return MIRCOSECONDS_IN_MINUTE/microsecsPerQuarterNote;
 	}
 	
 	private String[] getNoteArray() {
