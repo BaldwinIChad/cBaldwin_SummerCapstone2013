@@ -21,4 +21,18 @@ public class Note {
 	public int getOctave() {
  		return octave;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean isEqual = false;
+		
+		if(obj instanceof Note)
+		{
+			Note o = (Note)obj;
+			if(octave == o.getOctave() && note.equals(o.note()))
+				isEqual = true;
+		}
+		
+		return isEqual;
+	}
 }
