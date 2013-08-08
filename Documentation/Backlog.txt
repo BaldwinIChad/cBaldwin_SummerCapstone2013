@@ -35,10 +35,26 @@ Week 4
 		- Found vague formula to obtain the duration of a MIDI note
 		- Obtained BPM of track
 		- Associating Ticks with lengths of microseconds
-Next Week
-	- Find out how different era differ
-	- What music information I can use besides chords, scales and note duration to 
-		determine era
-	- Get information for a whole song made with a multitude of instruments
+Week 5
+-----------ToDo Tasks:
+		- Find way to quantify data
+		- Get an idea for the data that can be used for machine learning
+-----------Completed:
+		- Note durations
+		- Make head way on Machine learning
+-----------Notes:
+		- Data that can be obtained
+			- BPM
+			- Count of certain notes
+			- Range of notes(aka the highest and lowest notes)
+			- List of scales that are present
+			- Average duration of a note played
+			- Total song length
+			- Number of ticks per quarter note (may be unrelated)
+			- Most frequent high note
+			- Most frequent low note
+-----------Next Week Task:
+		- Find a realistic model to use linar regression on
+		- Learn linear regression, example algorithm/program
 		
 	
