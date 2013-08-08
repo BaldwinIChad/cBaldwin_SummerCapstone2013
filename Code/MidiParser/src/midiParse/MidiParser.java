@@ -103,10 +103,13 @@ public class MidiParser {
 		double numQuarterNotes = ticks/ppqn;
 		double totalDuration = (numQuarterNotes * microsecsPerQuarterNote) / MICROSECONDS_IN_SECOND;
 		double duration = totalDuration - previousTotalDuration;
-		songDuration = totalDuration;
+		
+		if(totalDuration > songDuration)
+			songDuration = totalDuration;
+		
 		previousTotalDuration = totalDuration;
 		
-		String output = ("\tDURATION: " + duration);
+		String output = ("\tDURATION: " + duration + "\r\n");
 		System.out.println(output);
 		writer.write(output);
 		writer.flush();
