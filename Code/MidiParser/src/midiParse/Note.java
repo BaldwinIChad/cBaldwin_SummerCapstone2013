@@ -1,21 +1,21 @@
 package midiParse;
 
 public class Note implements Comparable<Note>{
-	private final String note;
+	private final NoteName noteName;
 	private final int octave;
 	
-	Note(String note) {
-		this.note = note;
+	Note(NoteName noteName) {
+		this.noteName = noteName;
 		this.octave = 0;
 	}
 	
-	Note(String note, int octave) {
-		this.note = note;
+	Note(NoteName noteName, int octave) {
+		this.noteName = noteName;
 		this.octave = octave;
 	}
 	
-	public String note() {
-		return note;
+	public NoteName note() {
+		return noteName;
 	}
 	
 	public int getOctave() {
@@ -29,7 +29,7 @@ public class Note implements Comparable<Note>{
 		if(obj instanceof Note)
 		{
 			Note o = (Note)obj;
-			if(octave == o.getOctave() && note.equals(o.note()))
+			if(octave == o.getOctave() && noteName.equals(o.note()))
 				isEqual = true;
 		}
 		
@@ -47,7 +47,7 @@ public class Note implements Comparable<Note>{
 			comparedValue = -1;
 		} 
 		else {
-			int noteCompareVal = note.compareToIgnoreCase(o.note);
+			int noteCompareVal = 0;
 			
 			if(noteCompareVal > 0)
 				comparedValue = 1;

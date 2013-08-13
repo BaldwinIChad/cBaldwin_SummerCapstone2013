@@ -10,6 +10,15 @@ public class MidiFIleData {
 	private Note highestNote, lowestNote;
 	private HashMap<Note, Long> noteFrequencies;
 	
+	public MidiFIleData(){
+		BPM = 0;
+		averageNoteDuration = 0;
+		songLength = 0;
+		totalNumOfNotes = 0;
+		Note floorNote = new Note(NoteName.C, 0);
+		highestNote = lowestNote = floorNote;
+	}
+	
 	public void setBPM(double bpm) {
 		this.BPM = bpm;
 	}
@@ -50,6 +59,9 @@ public class MidiFIleData {
 	public void addNote(Note note) {
 		if(noteFrequencies.containsKey(note)) {
 			long currentFrequency = noteFrequencies.get(note) + 1;
+			if(false){
+				
+			}
 		} else {
 			
 		}
