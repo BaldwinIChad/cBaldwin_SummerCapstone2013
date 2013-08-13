@@ -1,6 +1,6 @@
 package midiParse;
 
-public class Note {
+public class Note implements Comparable<Note>{
 	private final String note;
 	private final int octave;
 	
@@ -35,4 +35,30 @@ public class Note {
 		
 		return isEqual;
 	}
+
+	@Override
+	public int compareTo(Note o) {
+		int comparedValue = 0;
+		
+		if(this.octave > o.octave) {
+			comparedValue = 1;
+		}
+		else if(this.octave < o.octave) {
+			comparedValue = -1;
+		} 
+		else {
+			int noteCompareVal = note.compareToIgnoreCase(o.note);
+			
+			if(noteCompareVal > 0)
+				comparedValue = 1;
+			else if(noteCompareVal < 0)
+				comparedValue = -1;
+			else
+				comparedValue = 0;
+		}
+		
+		return comparedValue;
+	}
+	
+	
 }

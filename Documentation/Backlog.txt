@@ -56,5 +56,7 @@ Week 5
 -----------Next Week Task:
 		- Find a realistic model to use linar regression on
 		- Learn linear regression, example algorithm/program
+
+NEXT WEEK: Linear Regression stuff
 		
 	

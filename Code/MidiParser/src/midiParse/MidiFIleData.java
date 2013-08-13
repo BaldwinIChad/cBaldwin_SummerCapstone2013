@@ -8,7 +8,7 @@ public class MidiFIleData {
 	private double BPM, averageNoteDuration, songLength;
 	private long totalNumOfNotes;
 	private Note highestNote, lowestNote;
-	private HashMap<Note, Integer> noteFrequencies;
+	private HashMap<Note, Long> noteFrequencies;
 	
 	public void setBPM(double bpm) {
 		this.BPM = bpm;
@@ -18,4 +18,40 @@ public class MidiFIleData {
 		return BPM;
 	}
 	
+	public void setSongLength(double length) {
+		this.songLength = length;
+	}
+	
+	public double getSongLength() {
+		return songLength;
+	}
+	
+	public double getAverageNoteDuration() {
+		averageNoteDuration = songLength / totalNumOfNotes;
+		return averageNoteDuration;
+	}
+
+	public long getTotalNumOfNotes() {
+		return totalNumOfNotes;
+	}
+
+	public Note getHighestNote() {
+		return highestNote;
+	}
+
+	public Note getLowestNote() {
+		return lowestNote;
+	}
+
+	public Long getNoteFrequencies(Note note) {
+		return noteFrequencies.get(note);
+	}
+
+	public void addNote(Note note) {
+		if(noteFrequencies.containsKey(note)) {
+			long currentFrequency = noteFrequencies.get(note) + 1;
+		} else {
+			
+		}
+	}
 }
