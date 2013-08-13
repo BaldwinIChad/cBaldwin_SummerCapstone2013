@@ -57,13 +57,15 @@ public class MidiFIleData {
 	}
 
 	public void addNote(Note note) {
-		if(noteFrequencies.containsKey(note)) {
-			long currentFrequency = noteFrequencies.get(note) + 1;
-			if(false){
-				
-			}
-		} else {
-			
-		}
+		if(highestNote.note().compareNote(note.note()) > 0)
+			highestNote = note;
+		else if(lowestNote.note().compareNote(note.note()) < 0)
+			lowestNote = note;
+		
+		totalNumOfNotes++;
+		
+		long currentFrequency = (noteFrequencies.containsKey(note))? noteFrequencies.get(note) : 1;
+		
+		noteFrequencies.put(note, currentFrequency);
 	}
 }

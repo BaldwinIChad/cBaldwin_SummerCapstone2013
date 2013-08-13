@@ -21,17 +21,17 @@ public class Notes {
 		return notes[value];
 	}
 	
-	public static int getNoteIndex(String note) {
+	public static int getNoteIndex(NoteName note) {
 		int toReturn = -1;
 		
-//		for(int i = 0; i < NUMBEROFNOTES; i++)
-//			if(notes[i].note().equalsIgnoreCase(note))
-//				toReturn = i;
+		for(int i = 0; i < NUMBEROFNOTES; i++)
+			if(notes[i].note() == note)
+				toReturn = i;
 		
 		return toReturn;
 	}
 	
-	public static String getNoteName(int value) {
-		return "MEN";
+	public static NoteName getNoteName(int value) {
+		return notes[value].note();
 	}
 }

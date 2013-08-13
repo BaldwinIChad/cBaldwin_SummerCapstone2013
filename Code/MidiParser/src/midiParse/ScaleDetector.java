@@ -59,7 +59,7 @@ public class ScaleDetector {
 	}
 	
 	private float getNoteDistance(Note note) {
-		return 0.0f; //(note.getOctave() * 10) + Notes.getNoteIndex(note.note());
+		return (note.getOctave() * 10) + Notes.getNoteIndex(note.note());
 	}
 	
 	private String getClosestScale(float[] newScale) {
