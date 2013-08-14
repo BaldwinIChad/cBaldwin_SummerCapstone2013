@@ -2,7 +2,7 @@ package midiParse;
 
 import java.util.HashMap;
 
-public class MidiFIleData {
+public class MidiFileData {
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
 	private double BPM, averageNoteDuration, songLength;
@@ -10,13 +10,14 @@ public class MidiFIleData {
 	private Note highestNote, lowestNote;
 	private HashMap<Note, Long> noteFrequencies;
 	
-	public MidiFIleData(){
+	public MidiFileData(){
 		BPM = 0;
 		averageNoteDuration = 0;
 		songLength = 0;
 		totalNumOfNotes = 0;
 		Note floorNote = new Note(NoteName.C, 0);
 		highestNote = lowestNote = floorNote;
+		noteFrequencies = new HashMap<>();
 	}
 	
 	public void setBPM(double bpm) {
@@ -36,7 +37,6 @@ public class MidiFIleData {
 	}
 	
 	public double getAverageNoteDuration() {
-		averageNoteDuration = songLength / totalNumOfNotes;
 		return averageNoteDuration;
 	}
 
@@ -52,8 +52,8 @@ public class MidiFIleData {
 		return lowestNote;
 	}
 
-	public Long getNoteFrequencies(Note note) {
-		return noteFrequencies.get(note);
+	public HashMap<Note, Long> getNoteFrequencies() {
+		return noteFrequencies;
 	}
 
 	public void addNote(Note note) {
@@ -63,9 +63,10 @@ public class MidiFIleData {
 			lowestNote = note;
 		
 		totalNumOfNotes++;
+		averageNoteDuration = songLength / totalNumOfNotes;
 		
-		long currentFrequency = (noteFrequencies.containsKey(note))? noteFrequencies.get(note) : 1;
+		long currentFrequency = (noteFrequencies.containsKey(note))? noteFrequencies.get(note) : 0;
 		
-		noteFrequencies.put(note, currentFrequency);
+		noteFrequencies.put(note, currentFrequency + 1);
 	}
 }

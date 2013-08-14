@@ -28,6 +28,7 @@ public class MidiParser {
 	
 	ArrayList<String> notesForScaleDetection = new ArrayList<String>();
 	PrintWriter writer;
+	MidiFileData data;
 	
 	int scaleDetectionIndex;
 	int currentChannel;
@@ -40,6 +41,7 @@ public class MidiParser {
 	public File parseFile(String fileName)
 	{
 		Sequence seq;
+		data = new MidiFileData();
 
 		try {
 			writer = new PrintWriter(saveFile);
@@ -59,7 +61,8 @@ public class MidiParser {
 						parseMetaMessage((MetaMessage)message);
 				}
 			}
-			System.out.println("TOTAL: " + songDuration);
+//			System.out.println("TOTAL: " + songDuration);
+			data.setSongLength(songDuration);
 			writer.close();
 		} catch (InvalidMidiDataException | IOException e) {
 			e.printStackTrace();
@@ -80,10 +83,16 @@ public class MidiParser {
 		int velocity = m.getData2();
 		int key = m.getData1();
 		int octave = (key/MAX_NOTE_ARRAY_SIZE);
+		NoteName note = Notes.getNoteName(key % MAX_NOTE_ARRAY_SIZE);
 		
-		String note = Notes.getNoteName(key % MAX_NOTE_ARRAY_SIZE);
 		String status = (m.getCommand() == ShortMessage.NOTE_ON) ? NOTE_ON : NOTE_OFF;
-		if(status.equals(NOTE_ON))detectionSetup(note, octave);
+		
+		Note currentNote = new Note(note, octave);
+		
+		if(status.equals(NOTE_ON)) {
+			data.addNote(currentNote);
+			detectionSetup(note, octave);
+		}
 		
 		if(channel != currentChannel) {
 			currentChannel = channel;
@@ -135,8 +144,6 @@ public class MidiParser {
 		return output;
 	}
 	
-	//not actually BPM at the moment, result is in mircoseconds
-	
 	private double getBPM(byte[] b) {
 		char[] hexChars = new char[b.length * 2];
 		int v;
@@ -147,7 +154,9 @@ public class MidiParser {
 		}
 		String hexValue = new String(hexChars);
 		microsecsPerQuarterNote = Integer.parseInt(hexValue, 16);
-		return MIRCOSECONDS_IN_MINUTE/microsecsPerQuarterNote;
+		double bpm = MIRCOSECONDS_IN_MINUTE/microsecsPerQuarterNote;
+		data.setBPM(bpm);
+		return bpm;
 	}
 	
 	private String[] getNoteArray() {
@@ -156,7 +165,7 @@ public class MidiParser {
 		return elements;
 	}
 	
-	private void detectionSetup(String note, int octave) {
+	private void detectionSetup(NoteName note, int octave) {
 		if(scaleDetectionIndex<MAX_NOTE_ARRAY_SIZE)
 		{
 			 notesForScaleDetection.add(note + ";" + octave + ";");

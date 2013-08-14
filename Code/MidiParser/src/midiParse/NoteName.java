@@ -20,7 +20,7 @@ public enum NoteName implements Comparable<NoteName> {
 		this.index = index;
 	}
 	
-	int getIndex(){
+	int getIndex() {
 		return index;
 	}
 	
