@@ -98,9 +98,9 @@ public class MidiFileData {
 	}
 
 	public void addNote(Note note) {
-		if(highestNote.note().compareNote(note.note()) > 0)
+		if(highestNote.compareTo(note) > 0)
 			highestNote = note;
-		else if(lowestNote.note().compareNote(note.note()) < 0)
+		else if(lowestNote.compareTo(note) < 0)
 			lowestNote = note;
 		
 		if(note.getDuration() > longestNote.getDuration())

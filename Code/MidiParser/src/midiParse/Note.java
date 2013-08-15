@@ -56,12 +56,12 @@ public class Note implements Comparable<Note>{
 			comparedValue = -1;
 		} 
 		else {
-			int noteCompareVal = 0;
+			int noteCompareVal = this.noteName.compareNote(o.noteName);
 			
 			if(noteCompareVal > 0)
-				comparedValue = 1;
-			else if(noteCompareVal < 0)
 				comparedValue = -1;
+			else if(noteCompareVal < 0)
+				comparedValue = 1;
 			else
 				comparedValue = 0;
 		}
