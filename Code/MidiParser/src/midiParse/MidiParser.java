@@ -37,12 +37,12 @@ public class MidiParser {
 	double microsecsPerQuarterNote = 0;
 	double previousTotalDuration = 0.0;
 	double songDuration = 0.0;
+	Note currentNote;
 	
-	public File parseFile(String fileName)
+	public MidiFileData parseFile(String fileName)
 	{
 		Sequence seq;
 		data = new MidiFileData();
-
 		try {
 			writer = new PrintWriter(saveFile);
 			seq = MidiSystem.getSequence(new File(fileName));
@@ -55,13 +55,13 @@ public class MidiParser {
 							
 					if(message instanceof ShortMessage) {
 						parseShortMessage((ShortMessage)message, currentChannel);
-						getEventDuration(event.getTick());
+						currentNote.setDuration(getEventDuration(event.getTick()));
+						data.addNote(currentNote);
 					}
 					else if(message instanceof MetaMessage)
 						parseMetaMessage((MetaMessage)message);
 				}
 			}
-//			System.out.println("TOTAL: " + songDuration);
 			data.setSongLength(songDuration);
 			writer.close();
 		} catch (InvalidMidiDataException | IOException e) {
@@ -72,7 +72,7 @@ public class MidiParser {
 		//notesForScaleDetection.clear();
 		notesForScaleDetection = new ArrayList<String>();
 		scaleDetectionIndex = 0;
-		return saveFile;
+		return data;
 	}
 	
 	private String parseShortMessage(ShortMessage m, int currentChannel)
@@ -87,10 +87,9 @@ public class MidiParser {
 		
 		String status = (m.getCommand() == ShortMessage.NOTE_ON) ? NOTE_ON : NOTE_OFF;
 		
-		Note currentNote = new Note(note, octave);
+		currentNote = new Note(note, octave);
 		
 		if(status.equals(NOTE_ON)) {
-			data.addNote(currentNote);
 			detectionSetup(note, octave);
 		}
 		

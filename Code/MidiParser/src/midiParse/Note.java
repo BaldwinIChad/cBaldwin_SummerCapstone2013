@@ -3,6 +3,7 @@ package midiParse;
 public class Note implements Comparable<Note>{
 	private final NoteName noteName;
 	private final int octave;
+	private double duration;
 	
 	Note(NoteName noteName) {
 		this.noteName = noteName;
@@ -22,6 +23,14 @@ public class Note implements Comparable<Note>{
  		return octave;
 	}
 	
+	public double getDuration() {
+		return duration;
+	}
+
+	public void setDuration(double duration) {
+		this.duration = duration;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		boolean isEqual = false;
@@ -60,5 +69,8 @@ public class Note implements Comparable<Note>{
 		return comparedValue;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return noteName.name() + "" + octave;
+	}
 }
