@@ -58,5 +58,21 @@ Week 5
 		- Learn linear regression, example algorithm/program
 
 NEXT WEEK: Linear Regression stuff
+
+Week 6 
+
+-----------ToDo Tasks:
+		- Start Linear Regression Algorithm to determine era
+		- Have small prediction
+-----------Completed:
+		- Added more data values
+		- Create data object to hold all of song data
+-----------Notes:
+		- Made a training set for algorithm:
+			- Includes major songs from key eras
+		- Based on training give a hypothesis for determining era.
+-----------Next Week Task:
+		- Learn linear regression, example algorithm/program
+		- Make Prediction of era, improve accuracy
 		
 	
