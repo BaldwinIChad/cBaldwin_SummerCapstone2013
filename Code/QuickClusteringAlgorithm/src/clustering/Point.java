@@ -3,6 +3,7 @@ package clustering;
 public class Point {
 	double x;
 	double y;
+	boolean visited = false;
 	
 	Point(double x, double y){
 		this.x = x;
@@ -22,6 +23,14 @@ public class Point {
 		this.y = y;
 	}
 	
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
 	public double getDistance(Point a) {
 		double result = 0.0;
 		

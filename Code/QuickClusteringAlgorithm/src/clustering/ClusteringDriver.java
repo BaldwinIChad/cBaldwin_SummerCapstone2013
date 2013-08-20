@@ -1,6 +1,12 @@
 package clustering;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class ClusteringDriver {
+	static Centroid[] centroids = new Centroid[2];
+	static Random gen = new Random();
+	
 	public static void main(String[] args) {
 		Point[] data = {
 				new Point(3, 2),			//Cluster 1
@@ -20,5 +26,93 @@ public class ClusteringDriver {
 		};
 		
 		
+		
+		double maxX = getMaxX(data);
+		double maxY = getMaxY(data);
+		
+		
+		centroids[0] = new Centroid(gen.nextInt((int) (maxX*2))- maxX, gen.nextInt((int) (maxY*2))- maxY);
+		centroids[1] = new Centroid(gen.nextInt((int) (maxX*2))- maxX, gen.nextInt((int) (maxY*2))- maxY);
+		
+		for(Point p : data) {
+			Centroid c = findClosestCentroid(p);
+			c.addPoint(p);
+			p.setVisited(true);
+		}
+		
+		System.out.println(centroids[0].x + " " + centroids[0].getY());
+		System.out.println(centroids[1].x + " " + centroids[1].getY());
+	}
+	
+	private static Centroid findClosestCentroid(Point p) {
+		ArrayList<Centroid> shortest = new ArrayList<>();
+		double shortestDistance = Double.MAX_VALUE;
+		
+		for(Centroid c : centroids) {
+			double distance = c.getDistance(p);
+			
+			if(distance < shortestDistance){
+				shortest.clear();
+				shortest.add(c);
+				shortestDistance = distance;
+			}else if(distance == shortestDistance){
+				shortest.add(c);
+			}
+		}
+		
+		Centroid toReturn;
+		if(shortest.size() > 1){
+			toReturn = shortest.get(gen.nextInt(shortest.size()));
+		} else toReturn = shortest.get(0);
+		
+		return toReturn;
+	}
+	
+	private static double getMaxX(Point[] a){
+		double max = Double.MIN_VALUE;
+		
+		for(Point p : a) {
+			double pXVal = p.getX();
+			if(pXVal > max)
+				max = pXVal;
+		}
+		
+		return max;
+	}
+	
+	private static double getMaxY(Point[] a) {
+		double max = Double.MIN_VALUE;
+		
+		for(Point p : a) {
+			double pYVal = p.getY();
+			if(pYVal > max)
+				max = pYVal;
+		}
+		
+		return max;
+	}
+	
+	private static double getMinX(Point[] a) {
+		double min = Double.MAX_VALUE;
+		
+		for(Point p : a) {
+			double pXVal = p.getX();
+			if(pXVal < min)
+				min = pXVal;
+		}
+		
+		return min;
+	}
+	
+	private static double getMinY(Point[] a) {
+		double min = Double.MAX_VALUE;
+		
+		for(Point p : a) {
+			double pYVal = p.getY();
+			if(pYVal < min)
+				min = pYVal;
+		}
+		
+		return min;
 	}
 }
