@@ -40,7 +40,7 @@ public class Centroid extends Point {
 		}
 		int size = grouping.size();
 		
-		double factor = 1e3;
+		double factor = 1e5;
 		
 		co[0] = (Math.round(co[0] * factor) / factor) /size;
 		co[1] = (Math.round(co[1] * factor) / factor) /size;
