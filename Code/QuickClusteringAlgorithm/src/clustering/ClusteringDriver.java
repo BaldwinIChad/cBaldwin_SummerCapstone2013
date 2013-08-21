@@ -34,14 +34,33 @@ public class ClusteringDriver {
 		centroids[0] = new Centroid(gen.nextInt((int) (maxX*2))- maxX, gen.nextInt((int) (maxY*2))- maxY);
 		centroids[1] = new Centroid(gen.nextInt((int) (maxX*2))- maxX, gen.nextInt((int) (maxY*2))- maxY);
 		
-		for(Point p : data) {
-			Centroid c = findClosestCentroid(p);
-			c.addPoint(p);
-			p.setVisited(true);
+		int index = 0;
+		
+		while(hasCentroidMoved()) {
+			if(index > data.length - 1)
+				index = 0;
+			
+			Centroid c = findClosestCentroid(data[index]);
+			c.addPoint(data[index]);
+			data[index].setVisited(true);
+			index++;
 		}
 		
 		System.out.println(centroids[0].x + " " + centroids[0].getY());
 		System.out.println(centroids[1].x + " " + centroids[1].getY());
+	}
+	
+	private static boolean hasCentroidMoved() {
+		boolean moved = false;
+		
+		for(Centroid c : centroids){
+			if(c.hasMoved()) {
+				moved = true;
+				break;
+			}
+		}
+		
+		return moved;
 	}
 	
 	private static Centroid findClosestCentroid(Point p) {

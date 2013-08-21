@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 public class Centroid extends Point {
 	ArrayList<Point> grouping = new ArrayList<Point>();
+	private boolean hasMoved = true;
 	Centroid(double x, double y) {
 		super(x, y);
 	}
 	
 	public void addPoint(Point p) {
-		grouping.add(p);
+		if(!grouping.contains(p))
+			grouping.add(p);
+		
 		reposition();
 	}
 	
@@ -17,6 +20,12 @@ public class Centroid extends Point {
 		double[] coords = getAverageCoordinates();
 		setX(coords[0]);
 		setY(coords[1]);
+	}
+	
+	public boolean hasMoved(){
+		boolean moved = hasMoved;
+		hasMoved = false;
+		return moved;
 	}
 	
 	public double[] getAverageCoordinates() {
@@ -31,8 +40,12 @@ public class Centroid extends Point {
 		}
 		int size = grouping.size();
 		
-		co[0] = co[0]/size;
-		co[1] = co[1]/size;
+		double factor = 1e3;
+		
+		co[0] = (Math.round(co[0] * factor) / factor) /size;
+		co[1] = (Math.round(co[1] * factor) / factor) /size;
+		
+		hasMoved = (co[0] == x && co[1] == y) ? false : true;
 		
 		return co;
 	}
