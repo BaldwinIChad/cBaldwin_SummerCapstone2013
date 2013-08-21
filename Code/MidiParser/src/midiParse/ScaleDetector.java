@@ -42,6 +42,7 @@ public class ScaleDetector {
 		Scanner s = new Scanner(System.in);
 		System.out.println("What scale was this?");
 		String name = s.nextLine();
+		s.close();
 		return name;
 	}
 	

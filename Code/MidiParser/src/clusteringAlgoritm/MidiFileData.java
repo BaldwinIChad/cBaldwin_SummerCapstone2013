@@ -1,12 +1,16 @@
-package midiParse;
+package clusteringAlgoritm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import midiParse.Note;
+import midiParse.NoteName;
+
 public class MidiFileData {
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
+	private String songTitle;
 	private double BPM, averageNoteDuration, songLength;
 	private long totalNumOfNotes;
 	private Note highestNote, lowestNote, longestNote, shortestNote;
@@ -68,6 +72,14 @@ public class MidiFileData {
 		return longestNote;
 	}
 	
+	public String getSongTitle() {
+		return songTitle;
+	}
+
+	public void setSongTitle(String songTitle) {
+		this.songTitle = songTitle;
+	}
+
 	public String[] getMostFrequentNotes() {
 		ArrayList<String> notes = new ArrayList<String>();
 		long highestFrequency = 0;
@@ -114,5 +126,31 @@ public class MidiFileData {
 		long currentFrequency = (noteFrequencies.containsKey(note.toString()))? noteFrequencies.get(note.toString()) : 0;
 		
 		noteFrequencies.put(note.toString(), currentFrequency + 1);
+	}
+	
+	public double getDistance(MidiFileData d) {
+		double result = 0.0;
+		
+		result += Math.pow((this.BPM - d.BPM), 2);
+		result += Math.pow((this.averageNoteDuration - d.averageNoteDuration), 2);
+		result += Math.pow((this.songLength - d.songLength), 2);
+		result += Math.pow((this.totalNumOfNotes - d.totalNumOfNotes), 2);
+		result += Math.pow((this.longestNote.getDuration() - d.longestNote.getDuration()), 2);
+		result += Math.pow((this.shortestNote.getDuration() - d.shortestNote.getDuration()), 2);
+		result += Math.pow((this.highestNote.getDuration() - d.highestNote.getDuration()), 2);
+		result += Math.pow((this.lowestNote.getDuration() - d.lowestNote.getDuration()), 2);
+		
+		//Skipping most frequent notes, might be a good idea to get the lowestMostFrequent, etc.
+		
+		//result += Math.pow((this.getMostFrequentNotes(), b)
+		
+		
+		result += Math.pow((this.highestNote.getDistance() - d.getHighestNote().getDistance()), 2);
+		result += Math.pow((this.lowestNote.getDistance() - d.getLowestNote().getDistance()), 2);
+		result += Math.pow((this.longestNote.getDistance() - d.longestNote.getDistance()), 2);
+		result += Math.pow((this.shortestNote.getDistance() - d.shortestNote.getDistance()), 2);
+		
+		return Math.abs(Math.sqrt(result));
+		
 	}
 }

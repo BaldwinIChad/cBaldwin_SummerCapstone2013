@@ -10,7 +10,7 @@ public class Note implements Comparable<Note>{
 		this.octave = 0;
 	}
 	
-	Note(NoteName noteName, int octave) {
+	public Note(NoteName noteName, int octave) {
 		this.noteName = noteName;
 		this.octave = octave;
 	}
@@ -29,6 +29,10 @@ public class Note implements Comparable<Note>{
 
 	public void setDuration(double duration) {
 		this.duration = duration;
+	}
+	
+	public int getDistance() {
+		return octave * (Notes.getNoteIndex(noteName) + 1);
 	}
 
 	@Override

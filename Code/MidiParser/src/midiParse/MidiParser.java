@@ -14,6 +14,8 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
+import clusteringAlgoritm.MidiFileData;
+
 public class MidiParser {
 	private static final int TEMPO_MESSAGE_VALUE = 81;
 	private static final int MIRCOSECONDS_IN_MINUTE = 60000000;

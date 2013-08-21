@@ -110,28 +110,4 @@ public class ClusteringDriver {
 		
 		return max;
 	}
-	
-	private static double getMinX(Point[] a) {
-		double min = Double.MAX_VALUE;
-		
-		for(Point p : a) {
-			double pXVal = p.getX();
-			if(pXVal < min)
-				min = pXVal;
-		}
-		
-		return min;
-	}
-	
-	private static double getMinY(Point[] a) {
-		double min = Double.MAX_VALUE;
-		
-		for(Point p : a) {
-			double pYVal = p.getY();
-			if(pYVal < min)
-				min = pYVal;
-		}
-		
-		return min;
-	}
 }

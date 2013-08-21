@@ -2,6 +2,8 @@ package midiParse;
 
 import java.util.Scanner;
 
+import clusteringAlgoritm.MidiFileData;
+
 public class Startup
 {
 	public static void main(String[] args)
