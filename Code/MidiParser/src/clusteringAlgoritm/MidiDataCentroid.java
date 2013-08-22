@@ -1,11 +1,8 @@
 package clusteringAlgoritm;
 
-import java.util.ArrayList;
-
 public class MidiDataCentroid {
 	String clusterName;
 	boolean hasMoved = true;
-	ArrayList<MidiFileData> cluster = new ArrayList<>();
 	
 	public MidiDataCentroid(String name) {
 		this.clusterName = name;

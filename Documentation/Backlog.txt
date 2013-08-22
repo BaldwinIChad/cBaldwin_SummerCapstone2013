@@ -59,20 +59,24 @@ Week 5
 
 NEXT WEEK: Linear Regression stuff
 
-Week 6 
+GOOFED OVERWROTE WEEK 6 DOWNLOAD LATER
+
+Week 7
 
 -----------ToDo Tasks:
-		- Start Linear Regression Algorithm to determine era
-		- Have small prediction
+		-  Clustering Algoritm to determine era (close to completed)
 -----------Completed:
-		- Added more data values
-		- Create data object to hold all of song data
+		- Have small algoritm/program
+		- Learn Clustering
 -----------Notes:
-		- Made a training set for algorithm:
-			- Includes major songs from key eras
-		- Based on training give a hypothesis for determining era.
+-----------Ideas:
+		- Make graphical representation of data
+			- simple 2d charts, pick x and y axis values, update chart, show clusters via colors, 						overlapping
+		- Keep track of scales used in songs.
+			- Have to filter certain instruments...
 -----------Next Week Task:
-		- Learn linear regression, example algorithm/program
-		- Make Prediction of era, improve accuracy
+		- Fully functioning Clustering algoritm
+		- Make Accurate Prediction of era
+		- GUI
 		
 	
