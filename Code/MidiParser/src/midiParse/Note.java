@@ -34,6 +34,13 @@ public class Note implements Comparable<Note>{
 	public int getDistance() {
 		return octave * (Notes.getNoteIndex(noteName) + 1);
 	}
+	
+	public Note getMidNote(Note n) {
+		int midOctave = (this.octave + n.octave)/2;
+		int noteIndex = (this.noteName.getIndex() + n.noteName.getIndex()) / 2;
+		
+		return new Note(Notes.getNoteName(noteIndex), midOctave);
+	}
 
 	@Override
 	public boolean equals(Object obj) {
