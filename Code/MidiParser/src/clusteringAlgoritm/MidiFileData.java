@@ -11,7 +11,9 @@ public class MidiFileData {
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
 	private String songTitle;
-	private double BPM, averageNoteDuration, songLength;
+	protected double BPM;
+	private double averageNoteDuration;
+	private double songLength;
 	private long totalNumOfNotes;
 	private Note highestNote, lowestNote, longestNote, shortestNote;
 	private HashMap<String, Long> noteFrequencies;
