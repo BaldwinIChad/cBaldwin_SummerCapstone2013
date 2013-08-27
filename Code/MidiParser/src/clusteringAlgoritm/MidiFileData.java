@@ -12,11 +12,11 @@ public class MidiFileData {
 	expressed in minutes*/
 	private String songTitle;
 	protected double BPM;
-	private double averageNoteDuration;
-	private double songLength;
-	private long totalNumOfNotes;
-	private Note highestNote, lowestNote, longestNote, shortestNote;
-	private HashMap<String, Long> noteFrequencies;
+	protected double averageNoteDuration;
+	protected double songLength;
+	protected long totalNumOfNotes;
+	protected Note highestNote, lowestNote, longestNote, shortestNote;
+	protected HashMap<String, Long> noteFrequencies;
 	
 	public MidiFileData(){
 		BPM = 0;
