@@ -46,48 +46,70 @@ public class MidiDataCentroid extends MidiFileData{
 	
 	private Note averageShortestNote() {
 		Note currentNote = this.getShortestNote();
+		Note newNote = currentNote;
 		
 		for(MidiFileData d : pointsInCluster)
-			 currentNote = currentNote.getMidNote(d.getShortestNote());
+			 newNote = newNote.getMidNote(d.getShortestNote());
 		
-		return currentNote;
+		if(hasMoved == false)
+			hasMoved = (newNote.compareTo(currentNote) == 0);
+		
+		return newNote;
 	}
 	
 	private Note averageLongestNote() {
 		Note currentNote = this.getLongestNote();
+		Note newNote = currentNote;
 		
 		for(MidiFileData d : pointsInCluster)
-			currentNote = currentNote.getMidNote(d.getLongestNote());
+			newNote = newNote.getMidNote(d.getLongestNote());
+
+		if(hasMoved == false)
+			hasMoved = (newNote.compareTo(currentNote) == 0);
 		
-		return currentNote;
+		return newNote;
 	}
 	
 	private Note averageLowestNote() {
 		Note currentNote = this.getLowestNote();
+		Note newNote = currentNote;
 		
 		for(MidiFileData d : pointsInCluster)
-			currentNote = currentNote.getMidNote(d.getLowestNote());
+			newNote = newNote.getMidNote(d.getLowestNote());
 		
-		return currentNote;
+		if(hasMoved == false)
+			hasMoved = (newNote.compareTo(currentNote) == 0);
+		
+		return newNote;
 	}
 	
 	private Note averageHighestNote(){
 		Note currentNote = this.getHighestNote();
+		Note newNote = currentNote;
 		
 		for(MidiFileData d : pointsInCluster)
-			currentNote = currentNote.getMidNote(d.getHighestNote());
+			newNote = newNote.getMidNote(d.getHighestNote());
 		
-		return currentNote;
+		if(hasMoved == false)
+			hasMoved = (newNote.compareTo(currentNote) == 0);
+		
+		return newNote;
 	}
 	
 	private long averageTotalNotes(){
 		int total = pointsInCluster.size();
 		double averageNotes = 0.0;
+		double currentAverage = this.totalNumOfNotes;
 		
 		for(MidiFileData d : pointsInCluster)
 			averageNotes += d.getTotalNumOfNotes();
 		
-		return (long) (averageNotes / total);
+		long average = (long) (averageNotes / total);
+		
+		if(hasMoved == false)
+			hasMoved = (currentAverage == );
+		
+		return 
 	}
 	
 	private double averageSongLength(){
@@ -98,7 +120,7 @@ public class MidiDataCentroid extends MidiFileData{
 			averageLength += d.getSongLength();
 		}
 		
-		return averageLength / total;
+		return roundTo5thDecimal(averageLength / total);
 	}
 	
 	private double averageBPM(){
@@ -109,7 +131,7 @@ public class MidiDataCentroid extends MidiFileData{
 			bpm += d.getBPM();
 		}
 		
-		return bpm / total;
+		return roundTo5thDecimal(bpm / total);
 	}
 	
 	private double averageNoteDurations(){
@@ -120,7 +142,13 @@ public class MidiDataCentroid extends MidiFileData{
 			averageNoteDuration += d.getAverageNoteDuration();
 		}
 		
-		return averageNoteDuration / total;
+		return roundTo5thDecimal(averageNoteDuration / total);
+	}
+	
+	private double roundTo5thDecimal(double number) {
+		double factor = 1e5;
+		double result = (Math.round(number * factor) / factor);
+		return result;
 	}
 	
 	public boolean hasMoved() {

@@ -117,6 +117,41 @@ public class MidiFileData {
 		
 		return toReturn;
 	}
+	
+	public Note getLeastFrequentNote(){
+		ArrayList<Note> notes = new ArrayList<Note>();
+		long lowestFrequency = Long.MAX_VALUE;
+		
+		Iterator<String> iterator = noteFrequencies.keySet().iterator();
+		
+		while(iterator.hasNext()) {
+			String key = iterator.next();
+			
+			long currentNoteFrequency = noteFrequencies.get(key);
+			
+			if(lowestFrequency > currentNoteFrequency) {
+				notes.clear();
+				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
+				int octave = Integer.parseInt(key.substring(1, key.length()));
+				notes.add(new Note(note,octave));
+			}
+			else if(lowestFrequency == currentNoteFrequency){
+				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
+				int octave = Integer.parseInt(key.substring(1, key.length()));
+				notes.add(new Note(note,octave));
+				notes.add(new Note(note, octave));
+			}
+		}
+		
+		Note toReturn = new Note(NoteName.C, -1);
+		
+		for(Note n : notes){
+			if(n.compareTo(toReturn)< 0)
+				toReturn = n;
+		}
+		
+		return toReturn;
+	}
 
 	public HashMap<String, Long> getNoteFrequencies() {
 		return noteFrequencies;
