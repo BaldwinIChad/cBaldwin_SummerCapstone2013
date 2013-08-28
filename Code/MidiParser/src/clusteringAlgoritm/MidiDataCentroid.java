@@ -36,6 +36,35 @@ public class MidiDataCentroid extends MidiFileData{
 		this.totalNumOfNotes = averageTotalNotes();
 		this.highestNote = averageHighestNote();
 		this.lowestNote = averageLowestNote();
+		this.longestNote = averageLongestNote();
+		this.shortestNote = averageShortestNote();
+	}
+	
+	private Note averageShortestNote() {
+		Note currentNote = this.getShortestNote();
+		
+		for(MidiFileData d : pointsInCluster)
+			 currentNote = currentNote.getMidNote(d.getShortestNote());
+		
+		return currentNote;
+	}
+	
+	private Note averageLongestNote() {
+		Note currentNote = this.getLongestNote();
+		
+		for(MidiFileData d : pointsInCluster)
+			currentNote = currentNote.getMidNote(d.getLongestNote());
+		
+		return currentNote;
+	}
+	
+	private Note averageLowestNote() {
+		Note currentNote = this.getLowestNote();
+		
+		for(MidiFileData d : pointsInCluster)
+			currentNote = currentNote.getMidNote(d.getLowestNote());
+		
+		return currentNote;
 	}
 	
 	private Note averageHighestNote(){
