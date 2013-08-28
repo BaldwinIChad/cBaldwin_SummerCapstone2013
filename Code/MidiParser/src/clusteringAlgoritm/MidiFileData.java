@@ -16,7 +16,7 @@ public class MidiFileData {
 	protected double songLength;
 	protected long totalNumOfNotes;
 	protected Note highestNote, lowestNote, longestNote, shortestNote;
-	protected HashMap<String, Long> noteFrequencies;
+	private HashMap<String, Long> noteFrequencies;
 	
 	public MidiFileData(){
 		BPM = 0;
@@ -82,8 +82,9 @@ public class MidiFileData {
 		this.songTitle = songTitle;
 	}
 
-	public String[] getMostFrequentNotes() {
-		ArrayList<String> notes = new ArrayList<String>();
+	//Returns the highest, most frequent note
+	public Note getMostFrequentNote() {
+		ArrayList<Note> notes = new ArrayList<Note>();
 		long highestFrequency = 0;
 		
 		Iterator<String> iterator = noteFrequencies.keySet().iterator();
@@ -95,14 +96,24 @@ public class MidiFileData {
 			
 			if(highestFrequency < currentNoteFrequency) {
 				notes.clear();
-				notes.add(key);
+				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
+				int octave = Integer.parseInt(key.substring(1, key.length()));
+				notes.add(new Note(note,octave));
 			}
-			else if(highestFrequency == currentNoteFrequency)
-				notes.add(key);
+			else if(highestFrequency == currentNoteFrequency){
+				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
+				int octave = Integer.parseInt(key.substring(1, key.length()));
+				notes.add(new Note(note,octave));
+				notes.add(new Note(note, octave));
+			}
 		}
 		
-		String[] toReturn = new String[notes.size()];
-		notes.toArray(toReturn);
+		Note toReturn = new Note(NoteName.C, -1);
+		
+		for(Note n : notes){
+			if(n.compareTo(toReturn) > 0)
+				toReturn = n;
+		}
 		
 		return toReturn;
 	}

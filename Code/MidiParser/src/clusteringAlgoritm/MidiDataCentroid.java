@@ -3,12 +3,15 @@ package clusteringAlgoritm;
 import java.util.ArrayList;
 
 import midiParse.Note;
+import midiParse.NoteName;
 
 public class MidiDataCentroid extends MidiFileData{
 	String clusterName;
 	boolean hasMoved = true;
 	
 	ArrayList<MidiFileData> pointsInCluster = new ArrayList<>();
+	Note leastFrequentNote = new Note(NoteName.C, -1);
+	Note mostFrequentNote  = new Note(NoteName.C, -1);
 	
 	public MidiDataCentroid(String name) {
 		this.clusterName = name;
@@ -26,7 +29,7 @@ public class MidiDataCentroid extends MidiFileData{
 			repositionCentroid();
 			added = true;
 		}
-		return true;
+		return added;
 	}
 	
 	public void repositionCentroid(){
@@ -39,6 +42,7 @@ public class MidiDataCentroid extends MidiFileData{
 		this.longestNote = averageLongestNote();
 		this.shortestNote = averageShortestNote();
 	}
+	
 	
 	private Note averageShortestNote() {
 		Note currentNote = this.getShortestNote();
