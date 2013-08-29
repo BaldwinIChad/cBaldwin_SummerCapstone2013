@@ -201,4 +201,5 @@ public class MidiFileData {
 		return Math.abs(Math.sqrt(result));
 		
 	}
+	
 }

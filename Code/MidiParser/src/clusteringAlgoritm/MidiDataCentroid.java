@@ -21,6 +21,15 @@ public class MidiDataCentroid extends MidiFileData{
 		this.clusterName = name;
 	}
 	
+	public boolean containsSongTitle(String title){
+		for(MidiFileData d : pointsInCluster){
+			if(d.getSongTitle().equalsIgnoreCase(title))
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public boolean addMidiData(MidiFileData d){
 		boolean added = false;
 		
@@ -107,42 +116,60 @@ public class MidiDataCentroid extends MidiFileData{
 		long average = (long) (averageNotes / total);
 		
 		if(hasMoved == false)
-			hasMoved = (currentAverage == );
+			hasMoved = (currentAverage == average);
 		
-		return 
+		return average;
 	}
 	
 	private double averageSongLength(){
 		int total = pointsInCluster.size();
+		double currentAverage = this.songLength;
 		double averageLength = 0.0;
 		
 		for(MidiFileData d : pointsInCluster){
 			averageLength += d.getSongLength();
 		}
 		
+		averageLength = roundTo5thDecimal(averageLength / total);
+		
+		if(hasMoved == false)
+			hasMoved = (currentAverage == averageLength);
+		
 		return roundTo5thDecimal(averageLength / total);
 	}
 	
 	private double averageBPM(){
 		int total = pointsInCluster.size();
+		double currentBPM = this.BPM;
 		double bpm = 0.0;
 		
 		for(MidiFileData d : pointsInCluster) {
 			bpm += d.getBPM();
 		}
 		
-		return roundTo5thDecimal(bpm / total);
+		bpm = roundTo5thDecimal(bpm / total);
+		
+		if(hasMoved = false)
+			hasMoved = (currentBPM == bpm);
+		
+		return bpm;
 	}
 	
 	private double averageNoteDurations(){
 		int total = pointsInCluster.size();
 		double averageNoteDuration = 0.0;
+		double currentAverage = this.averageNoteDuration;
 		
 		for(MidiFileData d : pointsInCluster) {
 			averageNoteDuration += d.getAverageNoteDuration();
 		}
 		
-		return roundTo5thDecimal(averageNoteDuration / total);
+		 averageNoteDuration = roundTo5thDecimal(averageNoteDuration / total);
+		
+		if(hasMoved == false)
+			hasMoved = (currentAverage == averageNoteDuration);
+		
+		return averageNoteDuration;
 	}
 	
 	private double roundTo5thDecimal(double number) {

@@ -6,16 +6,48 @@ import java.util.Random;
 
 public class Clumper {
 	private final int NUMBER_OF_ERAS = 3;
+	
 	private Random gen = new Random();
 	
 	MidiDataCentroid[] centroids = new MidiDataCentroid[NUMBER_OF_ERAS];
 	
-	
 	public void addDataPoint(MidiFileData d) {
-		if(!data.containsKey(d.getSongTitle())) {
-			MidiDataCentroid centroid = findNearestCentroid(d);
-			centroid.addPoint(d);
+		generateRandomCentroids();
+		
+		while(hasCentroidMoved()){
+			MidiDataCentroid center = findNearestCentroid(d);
+			center.addMidiData(d);
 		}
+	}
+	
+	public void addData(MidiFileData[] d) {
+		
+	}
+	
+	private boolean hasCentroidMoved() {
+		boolean hasMoved = false;
+		
+		for(MidiDataCentroid c : centroids){
+			if(c.hasMoved() == true){
+				hasMoved = true;
+				break;
+			}
+		}
+		
+		return hasMoved;		
+	}
+	
+	private int getCentroidIndexContainPoint(MidiFileData d){
+		int index = -1;
+		
+		for(int i = 0; i < centroids.length; i++) {
+			if(centroids[i].containsSongTitle(d.getSongTitle())){
+				index = i;
+				break;				
+			}
+		}
+		
+		return index;
 	}
 	
 	private MidiDataCentroid findNearestCentroid(MidiFileData data) {
