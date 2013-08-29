@@ -19,6 +19,12 @@ public class Clumper {
 	
 	MidiDataCentroid[] centroids = new MidiDataCentroid[NUMBER_OF_ERAS];
 	
+	public Clumper(){
+		for(int i = 0; i < NUMBER_OF_ERAS; i++){
+			centroids[i] = new MidiDataCentroid("some name");
+		}
+	}
+	
 	public void addDataPoint(MidiFileData d) {
 		generateRandomCentroids();
 		

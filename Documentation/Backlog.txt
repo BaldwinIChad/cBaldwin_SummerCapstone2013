@@ -79,4 +79,13 @@ Week 7
 		- Make Accurate Prediction of era
 		- GUI
 		
-	
+-Week 8
+
+-----------TODO:
+	- Machine Learning
+-----------Completed:
+	- Clustering Algorithm
+-----------Next Week: 
+	- GUI
+	- Accuracy
+	- Named Clusters
