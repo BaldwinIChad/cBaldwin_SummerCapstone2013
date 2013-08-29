@@ -1,11 +1,19 @@
 package clusteringAlgoritm;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
+
+import midiParse.Note;
+import midiParse.NoteName;
+import midiParse.Notes;
 
 public class Clumper {
 	private final int NUMBER_OF_ERAS = 3;
+	private final int MAX_BPM = 4801;
+	private final int MAX_OCTAVE = 15;
+	private final int MAX_NOTE_DURATION = 90; //seconds
+	private final int MAX_SONG_LENGTH = 30; //minutes
+	private final int MAX_NUMBER_OF_NOTES = 3000000;
 	
 	private Random gen = new Random();
 	
@@ -20,8 +28,27 @@ public class Clumper {
 		}
 	}
 	
-	public void addData(MidiFileData[] d) {
+	private void generateRandomCentroids() {
+		for(MidiDataCentroid c : centroids){
+			c.setBPM(gen.nextInt(MAX_BPM));
+			c.setAverageNoteDuration(gen.nextInt(MAX_NOTE_DURATION));
+			c.setSongLength(gen.nextInt(MAX_SONG_LENGTH));
+			c.setTotalNumOfNotes(gen.nextInt(MAX_NUMBER_OF_NOTES));
 		
+			NoteName note = Notes.getNoteName(gen.nextInt(12));
+			
+			c.setHighestNote(new Note(note, gen.nextInt(MAX_OCTAVE)));
+			note = Notes.getNoteName(gen.nextInt(12));
+			c.setLowestNote(new Note(note, gen.nextInt(MAX_OCTAVE)));
+			note = Notes.getNoteName(gen.nextInt(12));
+			c.setLongestNote(new Note(note, gen.nextInt(MAX_OCTAVE)));
+			note = Notes.getNoteName(gen.nextInt(12));
+			c.setLongestNote(new Note(note, gen.nextInt(MAX_OCTAVE)));		
+		}
+	}
+
+	public void addData(MidiFileData[] d) {
+		//add a bunch of things!
 	}
 	
 	private boolean hasCentroidMoved() {

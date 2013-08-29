@@ -34,6 +34,30 @@ public class MidiFileData {
 		noteFrequencies = new HashMap<String, Long>();
 	}
 	
+	public void setAverageNoteDuration(double averageNoteDuration) {
+		this.averageNoteDuration = averageNoteDuration;
+	}
+
+	public void setTotalNumOfNotes(long totalNumOfNotes) {
+		this.totalNumOfNotes = totalNumOfNotes;
+	}
+
+	public void setHighestNote(Note highestNote) {
+		this.highestNote = highestNote;
+	}
+
+	public void setLowestNote(Note lowestNote) {
+		this.lowestNote = lowestNote;
+	}
+
+	public void setLongestNote(Note longestNote) {
+		this.longestNote = longestNote;
+	}
+
+	public void setShortestNote(Note shortestNote) {
+		this.shortestNote = shortestNote;
+	}
+	
 	public void setBPM(double bpm) {
 		this.BPM = bpm;
 	}

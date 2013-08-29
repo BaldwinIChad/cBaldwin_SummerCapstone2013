@@ -26,13 +26,7 @@ public class Startup
 				System.out.println("Avg. NoteLength: " + d.getAverageNoteDuration());
 				System.out.println("Highest Note: " + d.getHighestNote());
 				System.out.println("Lowest Note: " + d.getLowestNote());
-				
-				String mostFrequent = "";
-				
-				for(String s : d.getMostFrequentNotes())
-					mostFrequent += s + ",";
-				
-				System.out.println("Frequency: " + mostFrequent);
+				System.out.println("Frequency: " + d.getMostFrequentNote());
 				System.out.println("LongestNote: " + d.getLongestNote());
 				System.out.println("ShortestNote: " + d.getShortestNote());
 			}
