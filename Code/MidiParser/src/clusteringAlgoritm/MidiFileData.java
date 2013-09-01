@@ -23,14 +23,12 @@ public class MidiFileData {
 		averageNoteDuration = 0;
 		songLength = 0;
 		totalNumOfNotes = 0;
-		Note floorNote = new Note(NoteName.C, 0);
-		floorNote.setDuration(Double.MAX_VALUE);
-		Note celingNote = new Note(NoteName.C, Integer.MAX_VALUE);
-		celingNote.setDuration(Double.MIN_VALUE);
-		highestNote = floorNote;
-		lowestNote = celingNote;
-		longestNote = floorNote;
-		shortestNote = celingNote;
+		highestNote = new Note(NoteName.C, 0);
+		lowestNote = new Note(NoteName.C, 80);
+		longestNote = new Note(NoteName.C, 0);
+		longestNote.setDuration(0);
+		shortestNote = new Note(NoteName.C, 0);
+		shortestNote.setDuration(0);
 		noteFrequencies = new HashMap<String, Long>();
 	}
 	
