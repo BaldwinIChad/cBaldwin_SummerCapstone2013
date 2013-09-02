@@ -46,7 +46,7 @@ public class Note implements Comparable<Note>{
 		
 		int noteNameIndex = (this.compareTo(n) <= 0) ? this.noteName.getIndex() : n.noteName.getIndex();
 		
-		int realIndex = (int) (((noteNameIndex + hops) % 12)-1);
+		int realIndex = (int) (((noteNameIndex + hops) % 12));
 		noteOctave = noteOctave + (hops/12);
 		
 		return new Note(Notes.getNoteName(realIndex), (int)noteOctave);

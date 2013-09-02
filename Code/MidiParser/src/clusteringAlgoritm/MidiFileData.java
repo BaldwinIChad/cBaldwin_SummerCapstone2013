@@ -8,6 +8,7 @@ import midiParse.Note;
 import midiParse.NoteName;
 
 public class MidiFileData {
+	private final String noteRegex = "([a-zA-z]*)(\\d*)";
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
 	private String songTitle;
@@ -118,8 +119,9 @@ public class MidiFileData {
 			
 			if(highestFrequency < currentNoteFrequency) {
 				notes.clear();
-				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
-				int octave = Integer.parseInt(key.substring(1, key.length()));
+				String[] matches = noteRegex.split(key);
+				NoteName note = NoteName.valueOf(matches[1]);
+				int octave = Integer.parseInt(matches[2]);
 				notes.add(new Note(note,octave));
 			}
 			else if(highestFrequency == currentNoteFrequency){
