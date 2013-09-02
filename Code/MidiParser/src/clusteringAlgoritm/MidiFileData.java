@@ -3,12 +3,14 @@ package clusteringAlgoritm;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import midiParse.Note;
 import midiParse.NoteName;
 
 public class MidiFileData {
-	private final String noteRegex = "([a-zA-z]*)(\\d*)";
+	private final Pattern noteRegex = Pattern.compile("([a-zA-z]*)(\\d*)");
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
 	private String songTitle;
@@ -119,9 +121,10 @@ public class MidiFileData {
 			
 			if(highestFrequency < currentNoteFrequency) {
 				notes.clear();
-				String[] matches = noteRegex.split(key);
-				NoteName note = NoteName.valueOf(matches[1]);
-				int octave = Integer.parseInt(matches[2]);
+				Matcher m = noteRegex.matcher(key);
+				m.find();
+				NoteName note = NoteName.valueOf(m.group(1));
+				int octave = Integer.parseInt(m.group(2));
 				notes.add(new Note(note,octave));
 			}
 			else if(highestFrequency == currentNoteFrequency){
