@@ -34,7 +34,7 @@ public class Startup
 				System.out.println("LongestNote: " + d.getLongestNote());
 				System.out.println("ShortestNote: " + d.getShortestNote());
 			}
-			c.toString();
+			c.printClusterData();
 			System.out.println("\n\n\n");
 		}
 		scan.close();

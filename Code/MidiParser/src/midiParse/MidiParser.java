@@ -47,7 +47,9 @@ public class MidiParser {
 		data = new MidiFileData();
 		try {
 			writer = new PrintWriter(saveFile);
-			seq = MidiSystem.getSequence(new File(fileName));
+			File file = new File(fileName);
+			seq = MidiSystem.getSequence(file);
+			data.setFileName(file.getName());
 			for(Track track : seq.getTracks()) {
 				currentChannel = -1;
 				for(int eventIndex = 0; eventIndex < track.size(); eventIndex++) {

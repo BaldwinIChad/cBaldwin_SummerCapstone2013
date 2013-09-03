@@ -13,7 +13,7 @@ public class MidiFileData {
 	private final Pattern noteRegex = Pattern.compile("([a-zA-z]*)(\\d*)");
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
-	private String songTitle;
+	private String fileName;
 	protected double BPM;
 	protected double averageNoteDuration;
 	protected double songLength;
@@ -99,12 +99,12 @@ public class MidiFileData {
 		return longestNote;
 	}
 	
-	public String getSongTitle() {
-		return songTitle;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setSongTitle(String songTitle) {
-		this.songTitle = songTitle;
+	public void setFileName(String songTitle) {
+		this.fileName = songTitle;
 	}
 
 	//Returns the highest, most frequent note

@@ -23,15 +23,19 @@ public class Clumper {
 		for(int i = 0; i < NUMBER_OF_ERAS; i++){
 			centroids[i] = new MidiDataCentroid("some name");
 		}
+		generateRandomCentroids();
 	}
 	
 	public void addDataPoint(MidiFileData d) {
-		generateRandomCentroids();
+		//generateRandomCentroids();
 		
 		while(hasCentroidMoved()){
 			MidiDataCentroid center = findNearestCentroid(d);
 			center.addMidiData(d);
 		}
+		
+		for(MidiDataCentroid c : centroids)
+			c.resetMoved();
 	}
 	
 	private void generateRandomCentroids() {
@@ -74,7 +78,7 @@ public class Clumper {
 		int index = -1;
 		
 		for(int i = 0; i < centroids.length; i++) {
-			if(centroids[i].containsSongTitle(d.getSongTitle())){
+			if(centroids[i].containsSongTitle(d.getFileName())){
 				index = i;
 				break;				
 			}
@@ -105,5 +109,14 @@ public class Clumper {
 		} else toReturn = shortest.get(0);
 		
 		return toReturn;
+	}
+
+	public void printClusterData() {
+		for(int i = 0; i < centroids.length; i ++){
+			System.out.println("-----------------------CLUSTER " + i + "-----------------------------");
+			for(MidiFileData d : centroids[i].pointsInCluster){
+				System.out.println(d.getFileName());
+			}
+		}
 	}
 }

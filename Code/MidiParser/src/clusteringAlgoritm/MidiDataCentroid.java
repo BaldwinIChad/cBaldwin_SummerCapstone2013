@@ -10,8 +10,8 @@ public class MidiDataCentroid extends MidiFileData{
 	boolean hasMoved = true;
 	
 	ArrayList<MidiFileData> pointsInCluster = new ArrayList<>();
-	Note leastFrequentNote = new Note(NoteName.C, -1);
-	Note mostFrequentNote  = new Note(NoteName.C, -1);
+	Note leastFrequentNote = new Note(NoteName.C, 1);
+	Note mostFrequentNote  = new Note(NoteName.C, 1);
 	
 	public MidiDataCentroid(String name) {
 		this.clusterName = name;
@@ -23,7 +23,7 @@ public class MidiDataCentroid extends MidiFileData{
 	
 	public boolean containsSongTitle(String title){
 		for(MidiFileData d : pointsInCluster){
-			if(d.getSongTitle().equalsIgnoreCase(title))
+			if(d.getFileName().equalsIgnoreCase(title))
 				return true;
 		}
 		
@@ -176,6 +176,10 @@ public class MidiDataCentroid extends MidiFileData{
 		double factor = 1e5;
 		double result = (Math.round(number * factor) / factor);
 		return result;
+	}
+	
+	public void resetMoved(){
+		hasMoved = true;
 	}
 	
 	public boolean hasMoved() {
