@@ -33,11 +33,13 @@ public class MidiDataCentroid extends MidiFileData{
 	public boolean addMidiData(MidiFileData d){
 		boolean added = false;
 		
-		if(!pointsInCluster.contains(d)){
+		if(!pointsInCluster.contains(d) && d.isVisited() == false){
 			pointsInCluster.add(d);
-			repositionCentroid();
 			added = true;
 		}
+		
+		repositionCentroid();
+		
 		return added;
 	}
 	

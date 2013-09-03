@@ -20,7 +20,16 @@ public class MidiFileData {
 	protected long totalNumOfNotes;
 	protected Note highestNote, lowestNote, longestNote, shortestNote;
 	private HashMap<String, Long> noteFrequencies;
+	private boolean visited = false;
 	
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
 	public MidiFileData(){
 		BPM = 0;
 		averageNoteDuration = 0;
