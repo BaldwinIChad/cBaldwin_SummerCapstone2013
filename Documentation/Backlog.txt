@@ -89,3 +89,11 @@ Week 7
 	- GUI
 	- Accuracy
 	- Named Clusters
+
+-Week 9:
+
+-----------TODO:
+-----------Completed:
+-----------Next Week: 
+	- GUI
+	- Named Clusters
