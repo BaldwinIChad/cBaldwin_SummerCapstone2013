@@ -18,20 +18,25 @@ public class Clumper {
 	private Random gen = new Random();
 	
 	MidiDataCentroid[] centroids = new MidiDataCentroid[NUMBER_OF_ERAS];
+	ArrayList<MidiFileData> allData = new ArrayList<MidiFileData>();
 	
 	public Clumper(){
 		for(int i = 0; i < NUMBER_OF_ERAS; i++){
-			centroids[i] = new MidiDataCentroid("some name");
+			centroids[i] = new MidiDataCentroid(Integer.toString(i));
 		}
 		generateRandomCentroids();
 	}
 	
 	public void addDataPoint(MidiFileData d) {
-		//generateRandomCentroids();
+		int index = 0;
+		allData.add(d);
 		
-		while(hasCentroidMoved()){
+		while(hasCentroidMoved()) {
+			if(index > allData.size() - 1)
+				index = 0;
+			
 			MidiDataCentroid center = findNearestCentroid(d);
-			center.addMidiData(d);
+			center.addMidiData(allData.get(index++));
 		}
 		
 		for(MidiDataCentroid c : centroids)

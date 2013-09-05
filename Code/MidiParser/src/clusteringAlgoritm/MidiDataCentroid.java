@@ -8,6 +8,7 @@ import midiParse.NoteName;
 public class MidiDataCentroid extends MidiFileData{
 	String clusterName;
 	boolean hasMoved = true;
+	private final double factor = 1e8;
 	
 	ArrayList<MidiFileData> pointsInCluster = new ArrayList<>();
 	Note leastFrequentNote = new Note(NoteName.C, 1);
@@ -36,6 +37,7 @@ public class MidiDataCentroid extends MidiFileData{
 		if(!pointsInCluster.contains(d) && d.isVisited() == false){
 			pointsInCluster.add(d);
 			added = true;
+			d.setVisited(true);
 		}
 		
 		repositionCentroid();
@@ -52,6 +54,10 @@ public class MidiDataCentroid extends MidiFileData{
 		this.lowestNote = averageLowestNote();
 		this.longestNote = averageLongestNote();
 		this.shortestNote = averageShortestNote();
+	}
+	
+	private double roundDoubleTo8thDecimal(double number){
+		return (number * factor) / factor;
 	}
 	
 	
@@ -132,12 +138,12 @@ public class MidiDataCentroid extends MidiFileData{
 			averageLength += d.getSongLength();
 		}
 		
-		averageLength = roundTo5thDecimal(averageLength / total);
+		averageLength = roundTo5thDecimal(averageLength) / total;
 		
 		if(hasMoved == false)
 			hasMoved = (currentAverage == averageLength);
 		
-		return roundTo5thDecimal(averageLength / total);
+		return averageLength;
 	}
 	
 	private double averageBPM(){
@@ -149,7 +155,7 @@ public class MidiDataCentroid extends MidiFileData{
 			bpm += d.getBPM();
 		}
 		
-		bpm = roundTo5thDecimal(bpm / total);
+		bpm = roundTo5thDecimal(bpm)/total;
 		
 		if(hasMoved = false)
 			hasMoved = (currentBPM == bpm);
@@ -166,7 +172,7 @@ public class MidiDataCentroid extends MidiFileData{
 			averageNoteDuration += d.getAverageNoteDuration();
 		}
 		
-		 averageNoteDuration = roundTo5thDecimal(averageNoteDuration / total);
+		 averageNoteDuration = roundTo5thDecimal(averageNoteDuration) / total;
 		
 		if(hasMoved == false)
 			hasMoved = (currentAverage == averageNoteDuration);
