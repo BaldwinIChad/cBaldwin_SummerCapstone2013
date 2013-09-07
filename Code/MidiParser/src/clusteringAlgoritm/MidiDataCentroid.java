@@ -108,9 +108,9 @@ public class MidiDataCentroid extends MidiFileData{
 	}
 	
 	private long averageTotalNotes(){
-		int total = pointsInCluster.size();
-		double averageNotes = 0.0;
+		int total = pointsInCluster.size() + 1;
 		double currentAverage = this.totalNumOfNotes;
+		double averageNotes = currentAverage;
 		
 		for(MidiFileData d : pointsInCluster)
 			averageNotes += d.getTotalNumOfNotes();
@@ -124,9 +124,9 @@ public class MidiDataCentroid extends MidiFileData{
 	}
 	
 	private double averageSongLength(){
-		int total = pointsInCluster.size();
+		int total = pointsInCluster.size() + 1;
 		double currentAverage = this.songLength;
-		double averageLength = 0.0;
+		double averageLength = currentAverage;
 		
 		for(MidiFileData d : pointsInCluster){
 			averageLength += d.getSongLength();
@@ -141,9 +141,9 @@ public class MidiDataCentroid extends MidiFileData{
 	}
 	
 	private double averageBPM(){
-		int total = pointsInCluster.size();
+		int total = pointsInCluster.size() + 1;
 		double currentBPM = this.BPM;
-		double bpm = 0.0;
+		double bpm = currentBPM;
 		
 		for(MidiFileData d : pointsInCluster) {
 			bpm += d.getBPM();
@@ -158,9 +158,9 @@ public class MidiDataCentroid extends MidiFileData{
 	}
 	
 	private double averageNoteDurations(){
-		int total = pointsInCluster.size();
-		double averageNoteDuration = 0.0;
+		int total = pointsInCluster.size()+1;
 		double currentAverage = this.averageNoteDuration;
+		double averageNoteDuration = currentAverage;
 		
 		for(MidiFileData d : pointsInCluster) {
 			averageNoteDuration += d.getAverageNoteDuration();

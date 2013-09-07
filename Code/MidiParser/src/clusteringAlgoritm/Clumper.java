@@ -123,6 +123,16 @@ public class Clumper {
 	public void printClusterData() {
 		for(int i = 0; i < centroids.length; i ++){
 			System.out.println("-----------------------CLUSTER " + i + "-----------------------------");
+			System.out.println("BPM: " + centroids[i].getBPM());
+			System.out.println("Song Length: " + centroids[i].getSongLength());
+			System.out.println("# notes: " + centroids[i].getTotalNumOfNotes());
+			System.out.println("Avg. NoteLength: " + centroids[i].getAverageNoteDuration());
+			System.out.println("Highest Note: " + centroids[i].getHighestNote());
+			System.out.println("Lowest Note: " + centroids[i].getLowestNote());
+			System.out.println("Frequency: " + centroids[i].getMostFrequentNote());
+			System.out.println("LongestNote: " + centroids[i].getLongestNote());
+			System.out.println("ShortestNote: " + centroids[i].getShortestNote());
+			System.out.println("----------Songs-------------");
 			for(MidiFileData d : centroids[i].pointsInCluster){
 				System.out.println(d.getFileName());
 			}

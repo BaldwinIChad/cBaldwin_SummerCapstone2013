@@ -1,5 +1,7 @@
 package midiParse;
 
+import javax.jws.Oneway;
+
 public class Note implements Comparable<Note>{
 	private final NoteName noteName;
 	private final int octave;
@@ -36,8 +38,20 @@ public class Note implements Comparable<Note>{
 	}
 	
 		public Note getMidNote(Note n) {
-			int numSemiTones = getSemitonesBetweenNote(n)/2;
+			int numSemiTones = (getSemitonesBetweenNote(n)/2) + 1;
+			Note smallestNote = (this.compareTo(n) < 0) ? this : n;
+			int noteIndex = Notes.getNoteIndex(smallestNote.noteName);
+			int newOctave = smallestNote.getOctave();
 			
+			for(int i = 0; i < numSemiTones; i++){
+				noteIndex++;
+				if(noteIndex >= Notes.NUMBEROFNOTES){
+					noteIndex = 0;
+					newOctave++;
+				}
+			}
+			
+			return new Note(Notes.getNoteName(noteIndex), newOctave);
 		}
 
 
