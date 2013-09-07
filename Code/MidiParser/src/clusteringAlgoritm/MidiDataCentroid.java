@@ -8,7 +8,6 @@ import midiParse.NoteName;
 public class MidiDataCentroid extends MidiFileData{
 	String clusterName;
 	boolean hasMoved = true;
-	private final double factor = 1e8;
 	
 	ArrayList<MidiFileData> pointsInCluster = new ArrayList<>();
 	Note leastFrequentNote = new Note(NoteName.C, 1);
@@ -50,16 +49,11 @@ public class MidiDataCentroid extends MidiFileData{
 		this.averageNoteDuration = averageNoteDurations();
 		this.songLength = averageSongLength();
 		this.totalNumOfNotes = averageTotalNotes();
-		this.highestNote = averageHighestNote();
-		this.lowestNote = averageLowestNote();
-		this.longestNote = averageLongestNote();
-		this.shortestNote = averageShortestNote();
+//		this.highestNote = averageHighestNote();
+//		this.lowestNote = averageLowestNote();
+//		this.longestNote = averageLongestNote();
+//		this.shortestNote = averageShortestNote();
 	}
-	
-	private double roundDoubleTo8thDecimal(double number){
-		return (number * factor) / factor;
-	}
-	
 	
 	private Note averageShortestNote() {
 		Note currentNote = this.getShortestNote();
@@ -69,7 +63,7 @@ public class MidiDataCentroid extends MidiFileData{
 			 newNote = newNote.getMidNote(d.getShortestNote());
 		
 		if(hasMoved == false)
-			hasMoved = (newNote.compareTo(currentNote) == 0);
+			hasMoved = !(newNote.compareTo(currentNote) == 0);
 		
 		return newNote;
 	}
@@ -82,7 +76,7 @@ public class MidiDataCentroid extends MidiFileData{
 			newNote = newNote.getMidNote(d.getLongestNote());
 
 		if(hasMoved == false)
-			hasMoved = (newNote.compareTo(currentNote) == 0);
+			hasMoved = !(newNote.compareTo(currentNote) == 0);
 		
 		return newNote;
 	}
@@ -95,7 +89,7 @@ public class MidiDataCentroid extends MidiFileData{
 			newNote = newNote.getMidNote(d.getLowestNote());
 		
 		if(hasMoved == false)
-			hasMoved = (newNote.compareTo(currentNote) == 0);
+			hasMoved = !(newNote.compareTo(currentNote) == 0);
 		
 		return newNote;
 	}
@@ -108,7 +102,7 @@ public class MidiDataCentroid extends MidiFileData{
 			newNote = newNote.getMidNote(d.getHighestNote());
 		
 		if(hasMoved == false)
-			hasMoved = (newNote.compareTo(currentNote) == 0);
+			hasMoved = !(newNote.compareTo(currentNote) == 0);
 		
 		return newNote;
 	}
@@ -124,7 +118,7 @@ public class MidiDataCentroid extends MidiFileData{
 		long average = (long) (averageNotes / total);
 		
 		if(hasMoved == false)
-			hasMoved = (currentAverage == average);
+			hasMoved = !(currentAverage == average);
 		
 		return average;
 	}
@@ -141,7 +135,7 @@ public class MidiDataCentroid extends MidiFileData{
 		averageLength = roundTo5thDecimal(averageLength) / total;
 		
 		if(hasMoved == false)
-			hasMoved = (currentAverage == averageLength);
+			hasMoved = !(currentAverage == averageLength);
 		
 		return averageLength;
 	}
@@ -158,7 +152,7 @@ public class MidiDataCentroid extends MidiFileData{
 		bpm = roundTo5thDecimal(bpm)/total;
 		
 		if(hasMoved = false)
-			hasMoved = (currentBPM == bpm);
+			hasMoved = !(currentBPM == bpm);
 		
 		return bpm;
 	}
@@ -175,7 +169,7 @@ public class MidiDataCentroid extends MidiFileData{
 		 averageNoteDuration = roundTo5thDecimal(averageNoteDuration) / total;
 		
 		if(hasMoved == false)
-			hasMoved = (currentAverage == averageNoteDuration);
+			hasMoved = !(currentAverage == averageNoteDuration);
 		
 		return averageNoteDuration;
 	}

@@ -1,7 +1,7 @@
 package midiParse;
 
 public class Notes {
-	private static final int NUMBEROFNOTES = 12;
+	public static final int NUMBEROFNOTES = 12;
 	private static Note[] notes = {
 		new Note(NoteName.C),
 		new Note(NoteName.Cs),

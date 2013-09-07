@@ -35,21 +35,52 @@ public class Note implements Comparable<Note>{
 		return octave * (Notes.getNoteIndex(noteName) + 1);
 	}
 	
-	public Note getMidNote(Note n) {
-		double distance = 0.0;
+		public Note getMidNote(Note n) {
+			double distance = 0.0;
+					distance += Math.pow((this.noteName.getIndex() - n.noteName.getIndex()), 2);
+			distance += Math.pow((this.octave - n.octave), 2);
+			
+			long noteOctave = (long)distance;
+			long hops = Math.round((distance-noteOctave)*10);
+			
+			int noteNameIndex = (this.compareTo(n) <= 0) ? this.noteName.getIndex() : n.noteName.getIndex();
+			int realIndex = (int) (((noteNameIndex + hops) % 12));
+			noteOctave = noteOctave + (hops/12);
+			return new Note(Notes.getNoteName(realIndex), (int)noteOctave);
+		}
+
+
+	
+	public int getSemitonesBetweenNote(Note note){
+		int comparison = this.compareTo(note);
+		Note thisNote = this;
 		
-		distance += Math.pow((this.noteName.getIndex() - n.noteName.getIndex()), 2);
-		distance += Math.pow((this.octave - n.octave), 2);
+		if(comparison < 0){
+			return semitonesBetweenNotes(thisNote, note);
+		}
+		else if(comparison > 0){
+			return semitonesBetweenNotes(note, thisNote);
+		}
+		else return 0;
+	}
+	
+	private int semitonesBetweenNotes(Note lesserNote, Note greaterNote){
+		int noteIndex = Notes.getNoteIndex(lesserNote.noteName);
+		int newOctave = lesserNote.getOctave();
+		int semitones = 0;
 		
-		long noteOctave = (long)distance;
-		long hops = Math.round((distance-noteOctave)*10);
+		while(lesserNote.compareTo(greaterNote) < 0){
+			noteIndex++;
+			if(noteIndex >= Notes.NUMBEROFNOTES){
+				newOctave++;
+				noteIndex = 0;
+			}
+			NoteName name = Notes.getNoteName(noteIndex);
+			lesserNote = new Note(name,newOctave);
+			semitones++;
+		}
 		
-		int noteNameIndex = (this.compareTo(n) <= 0) ? this.noteName.getIndex() : n.noteName.getIndex();
-		
-		int realIndex = (int) (((noteNameIndex + hops) % 12));
-		noteOctave = noteOctave + (hops/12);
-		
-		return new Note(Notes.getNoteName(realIndex), (int)noteOctave);
+		return semitones;
 	}
 
 	@Override
@@ -79,9 +110,9 @@ public class Note implements Comparable<Note>{
 		else {
 			int noteCompareVal = this.noteName.compareNote(o.noteName);
 			
-			if(noteCompareVal > 0)
+			if(noteCompareVal < 0)
 				comparedValue = -1;
-			else if(noteCompareVal < 0)
+			else if(noteCompareVal > 0)
 				comparedValue = 1;
 			else
 				comparedValue = 0;
