@@ -8,7 +8,7 @@ public class TestDriver {
 		Note one = new Note(NoteName.A, 5);
 		Note two = new Note(NoteName.G, 6);
 		
-		System.out.println(one.getSemitonesBetweenNote(two));
+		System.out.println(two.getMidNote(one));
 	}
 
 }

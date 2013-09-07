@@ -11,6 +11,8 @@ import midiParse.NoteName;
 
 public class MidiFileData {
 	private final Pattern noteRegex = Pattern.compile("([a-zA-z]*)(\\d*)");
+	private final int MAX_OCTAVE = 15;
+	private final int THIRTY_MIN_IN_SEC = 1800;
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
 	private String fileName;
@@ -36,11 +38,11 @@ public class MidiFileData {
 		songLength = 0;
 		totalNumOfNotes = 0;
 		highestNote = new Note(NoteName.C, 0);
-		lowestNote = new Note(NoteName.C, 80);
+		lowestNote = new Note(NoteName.C, MAX_OCTAVE);
 		longestNote = new Note(NoteName.C, 0);
 		longestNote.setDuration(0);
 		shortestNote = new Note(NoteName.C, 0);
-		shortestNote.setDuration(0);
+		shortestNote.setDuration(THIRTY_MIN_IN_SEC);
 		noteFrequencies = new HashMap<String, Long>();
 	}
 	

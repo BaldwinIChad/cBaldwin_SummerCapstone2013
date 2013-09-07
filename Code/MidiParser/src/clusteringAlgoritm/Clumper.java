@@ -9,7 +9,7 @@ import midiParse.Notes;
 
 public class Clumper {
 	private final int NUMBER_OF_ERAS = 3;
-	private final int MAX_BPM = 4801;
+	private final int MAX_BPM = 1000;
 	private final int MAX_OCTAVE = 15;
 	private final int MAX_NOTE_DURATION = 90; //seconds
 	private final int MAX_SONG_LENGTH = 30; //minutes
@@ -29,11 +29,15 @@ public class Clumper {
 	
 	public void addDataPoint(MidiFileData d) {
 		int index = 0;
+		int dataSize = allData.size();
 		allData.add(d);
+		boolean loopedOnce = false;
 		
-		while(hasCentroidMoved()) {
-			if(index > allData.size() - 1)
+		while(hasCentroidMoved() || !loopedOnce) {
+			if(index > dataSize){
 				index = 0;
+				loopedOnce = true;
+			}
 			
 			MidiDataCentroid center = findNearestCentroid(d);
 			center.addMidiData(allData.get(index++));

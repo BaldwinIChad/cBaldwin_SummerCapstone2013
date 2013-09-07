@@ -49,10 +49,10 @@ public class MidiDataCentroid extends MidiFileData{
 		this.averageNoteDuration = averageNoteDurations();
 		this.songLength = averageSongLength();
 		this.totalNumOfNotes = averageTotalNotes();
-//		this.highestNote = averageHighestNote();
-//		this.lowestNote = averageLowestNote();
-//		this.longestNote = averageLongestNote();
-//		this.shortestNote = averageShortestNote();
+		this.highestNote = averageHighestNote();
+		this.lowestNote = averageLowestNote();
+		this.longestNote = averageLongestNote();
+		this.shortestNote = averageShortestNote();
 	}
 	
 	private Note averageShortestNote() {

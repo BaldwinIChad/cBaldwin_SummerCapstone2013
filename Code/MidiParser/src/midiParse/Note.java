@@ -36,17 +36,8 @@ public class Note implements Comparable<Note>{
 	}
 	
 		public Note getMidNote(Note n) {
-			double distance = 0.0;
-					distance += Math.pow((this.noteName.getIndex() - n.noteName.getIndex()), 2);
-			distance += Math.pow((this.octave - n.octave), 2);
+			int numSemiTones = getSemitonesBetweenNote(n)/2;
 			
-			long noteOctave = (long)distance;
-			long hops = Math.round((distance-noteOctave)*10);
-			
-			int noteNameIndex = (this.compareTo(n) <= 0) ? this.noteName.getIndex() : n.noteName.getIndex();
-			int realIndex = (int) (((noteNameIndex + hops) % 12));
-			noteOctave = noteOctave + (hops/12);
-			return new Note(Notes.getNoteName(realIndex), (int)noteOctave);
 		}
 
 
