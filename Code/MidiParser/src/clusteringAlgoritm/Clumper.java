@@ -8,10 +8,11 @@ import midiParse.NoteName;
 import midiParse.Notes;
 
 public class Clumper {
+	private final int MIN_BPM = 25;
 	private final int NUMBER_OF_ERAS = 3;
 	private final int MAX_BPM = 300;
 	private final int MAX_OCTAVE = 13;
-	private final int MAX_NOTE_DURATION = 90; //seconds
+	private final int MAX_NOTE_DURATION = 15; //seconds
 	private final int MAX_SONG_LENGTH = 15; //minutes
 	private final int MAX_NUMBER_OF_NOTES = 20000;
 	
@@ -49,9 +50,9 @@ public class Clumper {
 	
 	private void generateRandomCentroids() {
 		for(MidiDataCentroid c : centroids){
-			c.setBPM(gen.nextInt(MAX_BPM));
-			c.setAverageNoteDuration(gen.nextInt(MAX_NOTE_DURATION));
-			c.setSongLength(gen.nextInt(MAX_SONG_LENGTH));
+			c.setBPM(MIN_BPM + (Math.random() * ((MAX_BPM - MIN_BPM) + 1)));
+			c.setAverageNoteDuration(Math.random() * MAX_NOTE_DURATION);
+			c.setSongLength(Math.random() * MAX_SONG_LENGTH);
 			c.setTotalNumOfNotes(gen.nextInt(MAX_NUMBER_OF_NOTES));
 		
 			NoteName note = Notes.getNoteName(gen.nextInt(12));
