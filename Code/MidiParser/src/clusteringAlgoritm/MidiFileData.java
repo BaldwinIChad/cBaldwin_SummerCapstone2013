@@ -11,7 +11,7 @@ import midiParse.NoteName;
 
 public class MidiFileData {
 	private final Pattern noteRegex = Pattern.compile("([a-zA-z]*)(\\d*)");
-	private final int MAX_OCTAVE = 15;
+	private final int MAX_OCTAVE = 12;
 	private final int THIRTY_MIN_IN_SEC = 1800;
 	/*averageNote duration expressed in seconds, songLength
 	expressed in minutes*/
@@ -38,7 +38,7 @@ public class MidiFileData {
 		songLength = 0;
 		totalNumOfNotes = 0;
 		highestNote = new Note(NoteName.C, 0);
-		lowestNote = new Note(NoteName.C, MAX_OCTAVE);
+		lowestNote = new Note(NoteName.B, MAX_OCTAVE);
 		longestNote = new Note(NoteName.C, 0);
 		longestNote.setDuration(0);
 		shortestNote = new Note(NoteName.C, 0);
@@ -196,22 +196,24 @@ public class MidiFileData {
 	}
 
 	public void addNote(Note note) {
-		if(highestNote.compareTo(note) > 0)
-			highestNote = note;
-		else if(lowestNote.compareTo(note) < 0)
-			lowestNote = note;
-		
-		if(note.getDuration() > longestNote.getDuration())
-			longestNote = note;
-		else if(note.getDuration() < shortestNote.getDuration())
-			shortestNote = note;
-		
-		totalNumOfNotes++;
-		averageNoteDuration = songLength / totalNumOfNotes;
-		
-		long currentFrequency = (noteFrequencies.containsKey(note.toString()))? noteFrequencies.get(note.toString()) : 0;
-		
-		noteFrequencies.put(note.toString(), currentFrequency + 1);
+		if(note.getDuration() > 0){			
+			if(highestNote.compareTo(note) < 0)
+				highestNote = note;
+			else if(lowestNote.compareTo(note) > 0 && note.compareTo(new Note(NoteName.Cs, 0)) > 0)
+				lowestNote = note;
+			
+			if(note.getDuration() > longestNote.getDuration())
+				longestNote = note;
+			else if(note.getDuration() < shortestNote.getDuration())
+				shortestNote = note;
+			
+			totalNumOfNotes++;
+			averageNoteDuration = songLength / totalNumOfNotes;
+			
+			long currentFrequency = (noteFrequencies.containsKey(note.toString()))? noteFrequencies.get(note.toString()) : 0;
+			
+			noteFrequencies.put(note.toString(), currentFrequency + 1);
+		}
 	}
 	
 	public double getDistance(MidiFileData d) {

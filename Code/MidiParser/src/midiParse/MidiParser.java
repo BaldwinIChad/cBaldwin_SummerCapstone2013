@@ -45,6 +45,7 @@ public class MidiParser {
 	{
 		Sequence seq;
 		data = new MidiFileData();
+		resetValues();
 		
 			writer = new PrintWriter(saveFile);
 			File file = new File(fileName);
@@ -76,6 +77,16 @@ public class MidiParser {
 		return data;
 	}
 	
+	private void resetValues() {
+		scaleDetectionIndex = 0;
+		currentChannel = 0;
+		bpm = 0;
+		ppqn = 0;
+		microsecsPerQuarterNote = 0;
+		previousTotalDuration = 0.0;
+		songDuration = 0.0;
+	}
+
 	private String parseShortMessage(ShortMessage m, int currentChannel)
 	{
 		String output = "";

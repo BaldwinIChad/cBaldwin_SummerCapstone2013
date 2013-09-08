@@ -9,11 +9,11 @@ import midiParse.Notes;
 
 public class Clumper {
 	private final int NUMBER_OF_ERAS = 3;
-	private final int MAX_BPM = 1000;
-	private final int MAX_OCTAVE = 15;
+	private final int MAX_BPM = 300;
+	private final int MAX_OCTAVE = 13;
 	private final int MAX_NOTE_DURATION = 90; //seconds
-	private final int MAX_SONG_LENGTH = 30; //minutes
-	private final int MAX_NUMBER_OF_NOTES = 3000000;
+	private final int MAX_SONG_LENGTH = 15; //minutes
+	private final int MAX_NUMBER_OF_NOTES = 20000;
 	
 	private Random gen = new Random();
 	
