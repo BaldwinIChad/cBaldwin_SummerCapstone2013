@@ -208,6 +208,7 @@ public class MidiFileData {
 				shortestNote = note;
 			
 			totalNumOfNotes++;
+			songLength += note.getDuration();
 			averageNoteDuration = songLength / totalNumOfNotes;
 			
 			long currentFrequency = (noteFrequencies.containsKey(note.toString()))? noteFrequencies.get(note.toString()) : 0;
