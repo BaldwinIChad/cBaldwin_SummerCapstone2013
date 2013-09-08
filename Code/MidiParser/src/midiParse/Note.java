@@ -1,7 +1,5 @@
 package midiParse;
 
-import javax.jws.Oneway;
-
 public class Note implements Comparable<Note>{
 	private final NoteName noteName;
 	private final int octave;

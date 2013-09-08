@@ -41,11 +41,11 @@ public class MidiParser {
 	double songDuration = 0.0;
 	Note currentNote;
 	
-	public MidiFileData parseFile(String fileName)
+	public MidiFileData parseFile(String fileName) throws InvalidMidiDataException, IOException
 	{
 		Sequence seq;
 		data = new MidiFileData();
-		try {
+		
 			writer = new PrintWriter(saveFile);
 			File file = new File(fileName);
 			seq = MidiSystem.getSequence(file);
@@ -68,9 +68,6 @@ public class MidiParser {
 			}
 			data.setSongLength(songDuration);
 			writer.close();
-		} catch (InvalidMidiDataException | IOException e) {
-			e.printStackTrace();
-		}	
 		
 		System.out.println(scaleDetector.detectScale(getNoteArray()));
 		//notesForScaleDetection.clear();

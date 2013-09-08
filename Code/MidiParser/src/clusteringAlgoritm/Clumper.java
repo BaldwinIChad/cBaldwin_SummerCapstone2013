@@ -66,8 +66,25 @@ public class Clumper {
 		}
 	}
 
-	public void addData(MidiFileData[] d) {
-		//add a bunch of things!
+	public void addData(MidiFileData[] dataArray) {
+		allData.clear();
+		for (MidiFileData midiFileData : dataArray) {
+			allData.add(midiFileData);
+		}
+		int index = 0;
+		boolean loopedOnce = false;
+		int allDataSize = allData.size();
+		
+		while(hasCentroidMoved() || !loopedOnce){
+			if(index >= allDataSize) {
+				index = 0;
+				loopedOnce = true;
+			}
+			MidiFileData d = allData.get(index);
+			MidiDataCentroid c = findNearestCentroid(d);
+			c.addMidiData(d);
+			index++;
+		}
 	}
 	
 	private boolean hasCentroidMoved() {
@@ -83,18 +100,18 @@ public class Clumper {
 		return hasMoved;		
 	}
 	
-	private int getCentroidIndexContainPoint(MidiFileData d){
-		int index = -1;
-		
-		for(int i = 0; i < centroids.length; i++) {
-			if(centroids[i].containsSongTitle(d.getFileName())){
-				index = i;
-				break;				
-			}
-		}
-		
-		return index;
-	}
+//	private int getCentroidIndexContainPoint(MidiFileData d){
+//		int index = -1;
+//		
+//		for(int i = 0; i < centroids.length; i++) {
+//			if(centroids[i].containsSongTitle(d.getFileName())){
+//				index = i;
+//				break;				
+//			}
+//		}
+//		
+//		return index;
+//	}
 	
 	private MidiDataCentroid findNearestCentroid(MidiFileData data) {
 		ArrayList<MidiDataCentroid> shortest = new ArrayList<>();
