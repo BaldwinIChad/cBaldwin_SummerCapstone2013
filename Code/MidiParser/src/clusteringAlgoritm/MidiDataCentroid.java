@@ -10,6 +10,7 @@ public class MidiDataCentroid extends MidiFileData{
 	boolean hasMoved = true;
 	
 	ArrayList<MidiFileData> pointsInCluster = new ArrayList<>();
+
 	Note leastFrequentNote = new Note(NoteName.C, 1);
 	Note mostFrequentNote  = new Note(NoteName.C, 1);
 	
@@ -53,8 +54,36 @@ public class MidiDataCentroid extends MidiFileData{
 		this.lowestNote = averageLowestNote();
 		this.longestNote = averageLongestNote();
 		this.shortestNote = averageShortestNote();
+		this.mostFrequentNote = averageMostFrequent();
+		this.leastFrequentNote = averageLeastFrequent();
 	}
 	
+	private Note averageMostFrequent() {
+		Note currentNote = this.getMostFrequentNote();
+		Note newNote = currentNote;
+		
+		for(MidiFileData d : pointsInCluster)
+			 newNote = newNote.getMidNote(d.getMostFrequentNote());
+		
+		if(hasMoved == false)
+			hasMoved = !(newNote.compareTo(currentNote) == 0);
+		
+		return newNote;
+	}
+
+	private Note averageLeastFrequent() {
+		Note currentNote = this.getLeastFrequentNote();
+		Note newNote = currentNote;
+		
+		for(MidiFileData d : pointsInCluster)
+			 newNote = newNote.getMidNote(d.getLeastFrequentNote());
+		
+		if(hasMoved == false)
+			hasMoved = !(newNote.compareTo(currentNote) == 0);
+		
+		return newNote;
+	}
+
 	private Note averageShortestNote() {
 		Note currentNote = this.getShortestNote();
 		Note newNote = currentNote;
@@ -79,6 +108,22 @@ public class MidiDataCentroid extends MidiFileData{
 			hasMoved = !(newNote.compareTo(currentNote) == 0);
 		
 		return newNote;
+	}
+	
+	public Note getLeastFrequentNote() {
+		return leastFrequentNote;
+	}
+	
+	public void setLeastFrequentNote(Note leastFrequentNote) {
+		this.leastFrequentNote = leastFrequentNote;
+	}
+	
+	public Note getMostFrequentNote() {
+		return mostFrequentNote;
+	}
+	
+	public void setMostFrequentNote(Note mostFrequentNote) {
+		this.mostFrequentNote = mostFrequentNote;
 	}
 	
 	private Note averageLowestNote() {
@@ -189,6 +234,4 @@ public class MidiDataCentroid extends MidiFileData{
 		hasMoved = false;
 		return moved;
 	}
-	
-	
 }

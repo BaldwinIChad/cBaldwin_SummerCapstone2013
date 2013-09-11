@@ -1,6 +1,7 @@
 package clusteringAlgoritm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import midiParse.Note;
@@ -20,6 +21,7 @@ public class Clumper {
 	
 	MidiDataCentroid[] centroids = new MidiDataCentroid[NUMBER_OF_ERAS];
 	ArrayList<MidiFileData> allData = new ArrayList<MidiFileData>();
+	HashMap<MidiDataCentroid[], Integer> results = new HashMap<>();
 	
 	public Clumper(){
 		for(int i = 0; i < NUMBER_OF_ERAS; i++){
@@ -48,8 +50,14 @@ public class Clumper {
 			c.resetMoved();
 	}
 	
+	private void resetAllDataVisited(){
+		for(MidiFileData d : allData)
+			d.setVisited(false);
+	}
+	
 	private void generateRandomCentroids() {
 		for(MidiDataCentroid c : centroids){
+			c.pointsInCluster.clear();
 			c.setBPM(MIN_BPM + (Math.random() * ((MAX_BPM - MIN_BPM) + 1)));
 			c.setAverageNoteDuration(Math.random() * MAX_NOTE_DURATION);
 			c.setSongLength(Math.random() * MAX_SONG_LENGTH);
@@ -64,10 +72,16 @@ public class Clumper {
 			c.setLongestNote(new Note(note, gen.nextInt(MAX_OCTAVE)));
 			note = Notes.getNoteName(gen.nextInt(12));
 			c.setLongestNote(new Note(note, gen.nextInt(MAX_OCTAVE)));		
+			note = Notes.getNoteName(gen.nextInt(12));
+			c.setMostFrequentNote(new Note(note, gen.nextInt(MAX_OCTAVE)));
+			note = Notes.getNoteName(gen.nextInt(12));
+			c.setLeastFrequentNote(new Note(note, gen.nextInt(MAX_OCTAVE)));
 		}
 	}
 
 	public void addData(MidiFileData[] dataArray) {
+		resetAllDataVisited();
+		generateRandomCentroids();
 		allData.clear();
 		for (MidiFileData midiFileData : dataArray) {
 			allData.add(midiFileData);

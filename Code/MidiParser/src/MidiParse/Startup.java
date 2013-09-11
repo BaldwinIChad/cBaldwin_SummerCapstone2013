@@ -11,13 +11,14 @@ import clusteringAlgoritm.MidiFileData;
 
 public class Startup
 {
+	static ArrayList<MidiFileData> data = new ArrayList<>();
+	
 	public static void main(String[] args)
 	{
 		Scanner scan = new Scanner(System.in);
 		MidiParser p = new MidiParser();
 		Clumper c = new Clumper();
 		
-		ArrayList<MidiFileData> data = new ArrayList<>();
 		
 		boolean isRunning = true;
 		while(isRunning)
@@ -29,6 +30,7 @@ public class Startup
 			else if(input.equalsIgnoreCase("cluster")){
 				MidiFileData[] dataArray = new MidiFileData[data.size()];
 				data.toArray(dataArray);
+				readdData(dataArray);
 				c.addData(dataArray);
 				c.printClusterData();
 			}
@@ -45,7 +47,8 @@ public class Startup
 					System.out.println("Avg. NoteLength: " + d.getAverageNoteDuration());
 					System.out.println("Highest Note: " + d.getHighestNote());
 					System.out.println("Lowest Note: " + d.getLowestNote());
-					System.out.println("Frequency: " + d.getMostFrequentNote());
+					System.out.println("Most Frequent: " + d.getMostFrequentNote());
+					System.out.println("Least Frequent: " + d.getLeastFrequentNote());
 					System.out.println("LongestNote: " + d.getLongestNote());
 					System.out.println("ShortestNote: " + d.getShortestNote());
 					
@@ -53,8 +56,13 @@ public class Startup
 					System.out.println("File was not found or corrupt.");
 				}
 			}
-			System.out.println("\n\n\n");
+			System.out.println("\n");
 		}
 		scan.close();
+	}
+
+	private static void readdData(MidiFileData[] a) {
+		for(MidiFileData d : a)
+			data.add(d);
 	}
 }

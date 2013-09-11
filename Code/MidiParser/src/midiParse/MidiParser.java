@@ -70,7 +70,7 @@ public class MidiParser {
 			data.setSongLength(songDuration);
 			writer.close();
 		
-		System.out.println(scaleDetector.detectScale(getNoteArray()));
+		//System.out.println(scaleDetector.detectScale(getNoteArray()));
 		//notesForScaleDetection.clear();
 		notesForScaleDetection = new ArrayList<String>();
 		scaleDetectionIndex = 0;
@@ -112,7 +112,7 @@ public class MidiParser {
 		else 
 			output = "\tNote:" + note + octave + " \\Status:" + status + " \\Velocity:" + velocity + "\r\n";
 	
-		System.out.print(output);
+		//System.out.print(output);
 		writer.print(output);
 		writer.flush();
 		
@@ -130,7 +130,7 @@ public class MidiParser {
 		previousTotalDuration = totalDuration;
 		
 		String output = ("\tDURATION: " + duration + "\r\n");
-		System.out.println(output);
+		//System.out.println(output);
 		writer.write(output);
 		writer.flush();
 		
@@ -148,7 +148,7 @@ public class MidiParser {
 		else
 			output = "METADATA--------- " + new String(m.getMessage()) + "\r\n";
 		
-		System.out.print(output);
+		//System.out.print(output);
 		writer.print(output);
 		writer.flush();
 		
@@ -182,7 +182,7 @@ public class MidiParser {
 			 notesForScaleDetection.add(note + ";" + octave + ";");
 			 scaleDetectionIndex++;
 		}else if(scaleDetectionIndex > MAX_NOTE_ARRAY_SIZE) {
-			System.out.println(scaleDetector.detectScale(getNoteArray()));
+			//System.out.println(scaleDetector.detectScale(getNoteArray()));
 			notesForScaleDetection.clear();
 			notesForScaleDetection = new ArrayList<String>();
 			scaleDetectionIndex = 0;

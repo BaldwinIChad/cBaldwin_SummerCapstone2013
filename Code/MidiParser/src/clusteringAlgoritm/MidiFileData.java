@@ -137,6 +137,7 @@ public class MidiFileData {
 				NoteName note = NoteName.valueOf(m.group(1));
 				int octave = Integer.parseInt(m.group(2));
 				notes.add(new Note(note,octave));
+				highestFrequency = currentNoteFrequency;
 			}
 			else if(highestFrequency == currentNoteFrequency){
 				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
@@ -167,24 +168,28 @@ public class MidiFileData {
 			
 			long currentNoteFrequency = noteFrequencies.get(key);
 			
-			if(lowestFrequency > currentNoteFrequency) {
+			if(currentNoteFrequency < lowestFrequency && currentNoteFrequency > 0) {
 				notes.clear();
-				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
-				int octave = Integer.parseInt(key.substring(1, key.length()));
+				Matcher m = noteRegex.matcher(key);
+				m.find();
+				NoteName note = NoteName.valueOf(m.group(1));
+				int octave = Integer.parseInt(m.group(2));
 				notes.add(new Note(note,octave));
+				lowestFrequency = currentNoteFrequency;
 			}
 			else if(lowestFrequency == currentNoteFrequency){
-				NoteName note = NoteName.valueOf((String.valueOf(key.charAt(0))));
-				int octave = Integer.parseInt(key.substring(1, key.length()));
+				Matcher m = noteRegex.matcher(key);
+				m.find();
+				NoteName note = NoteName.valueOf(m.group(1));
+				int octave = Integer.parseInt(m.group(2));
 				notes.add(new Note(note,octave));
-				notes.add(new Note(note, octave));
 			}
 		}
 		
 		Note toReturn = new Note(NoteName.C, -1);
 		
 		for(Note n : notes){
-			if(n.compareTo(toReturn)< 0)
+			if(n.compareTo(toReturn) > 0)
 				toReturn = n;
 		}
 		
