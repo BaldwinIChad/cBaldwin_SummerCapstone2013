@@ -32,8 +32,17 @@ public class Note implements Comparable<Note>{
 	}
 	
 	public int getDistance() {
-		return octave * (Notes.getNoteIndex(noteName) + 1);
+		int numberOfIntervals = 0;
+		
+		numberOfIntervals = octave * 12;
+		numberOfIntervals += Notes.getNoteIndex(this.noteName);
+		
+		return numberOfIntervals;
 	}
+	
+//	public int getDistance() {														Changed. The distance is the number of intervals. I don't know what this is.
+//		return octave * (Notes.getNoteIndex(noteName) + 1);
+//	}
 	
 		public Note getMidNote(Note n) {
 			int numSemiTones = (getSemitonesBetweenNote(n)/2) + 1;

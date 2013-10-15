@@ -10,18 +10,19 @@ import midiParse.Notes;
 
 public class Clumper {
 	private final int MIN_BPM = 25;
-	private final int NUMBER_OF_ERAS = 3;
+	static final int NUMBER_OF_ERAS = 3;
 	private final int MAX_BPM = 300;
 	private final int MAX_OCTAVE = 13;
 	private final int MAX_NOTE_DURATION = 15; //seconds
 	private final int MAX_SONG_LENGTH = 15; //minutes
 	private final int MAX_NUMBER_OF_NOTES = 20000;
+	private final int NUM_OF_LOOPS = 30;
 	
 	private Random gen = new Random();
 	
 	MidiDataCentroid[] centroids = new MidiDataCentroid[NUMBER_OF_ERAS];
 	ArrayList<MidiFileData> allData = new ArrayList<MidiFileData>();
-	HashMap<MidiDataCentroid[], Integer> results = new HashMap<>();
+	ArrayList<ClusterResult> results = new ArrayList<ClusterResult>();
 	
 	public Clumper(){
 		for(int i = 0; i < NUMBER_OF_ERAS; i++){
@@ -53,6 +54,21 @@ public class Clumper {
 	private void resetAllDataVisited(){
 		for(MidiFileData d : allData)
 			d.setVisited(false);
+	}
+	
+	private void addResult(){
+		ClusterResult newResult = new ClusterResult(centroids);
+		boolean notSimilar = true;
+		
+		for(ClusterResult r : results){
+			if(r.equals(newResult)){
+				r.occurances++;
+				notSimilar = false;
+			}
+		}
+		
+		if(notSimilar)
+			results.add(newResult);
 	}
 	
 	private void generateRandomCentroids() {
@@ -99,6 +115,34 @@ public class Clumper {
 			MidiDataCentroid c = findNearestCentroid(d);
 			c.addMidiData(d);
 			index++;
+		}
+	}
+	
+	public void printResult(){
+		ClusterResult cr = new ClusterResult(centroids);
+		int maxOccurances = 0;
+		
+		for(ClusterResult r : results)
+			if(r.occurances > maxOccurances){
+				cr = r;
+				maxOccurances = r.occurances;
+			}
+		MidiDataCentroid[] results = cr.clusters;
+		for(int i = 0; i < results.length; i ++){
+			System.out.println("-----------------------CLUSTER " + i + "-----------------------------");
+			System.out.println("BPM: " + results[i].getBPM());
+			System.out.println("Song Length: " + results[i].getSongLength());
+			System.out.println("# notes: " + results[i].getTotalNumOfNotes());
+			System.out.println("Avg. NoteLength: " + results[i].getAverageNoteDuration());
+			System.out.println("Highest Note: " + results[i].getHighestNote());
+			System.out.println("Lowest Note: " + results[i].getLowestNote());
+			System.out.println("Frequency: " + results[i].getMostFrequentNote());
+			System.out.println("LongestNote: " + results[i].getLongestNote());
+			System.out.println("ShortestNote: " + results[i].getShortestNote());
+			System.out.println("----------Songs-------------");
+			for(MidiFileData d : results[i].pointsInCluster){
+				System.out.println(d.getFileName());
+			}
 		}
 	}
 	

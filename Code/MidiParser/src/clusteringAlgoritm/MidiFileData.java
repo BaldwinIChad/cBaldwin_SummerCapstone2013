@@ -1,6 +1,7 @@
 package clusteringAlgoritm;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -20,8 +21,9 @@ public class MidiFileData {
 	protected double averageNoteDuration;
 	protected double songLength;
 	protected long totalNumOfNotes;
-	protected Note highestNote, lowestNote, longestNote, shortestNote;
+	protected Note highestNote, lowestNote, longestNote, shortestNote, previousNote;
 	private HashMap<String, Long> noteFrequencies;
+	private HashMap<Integer, Integer> intervals; 
 	private boolean visited = false;
 	
 	public boolean isVisited() {
@@ -44,6 +46,8 @@ public class MidiFileData {
 		shortestNote = new Note(NoteName.C, 0);
 		shortestNote.setDuration(THIRTY_MIN_IN_SEC);
 		noteFrequencies = new HashMap<String, Long>();
+		intervals = new HashMap<Integer, Integer>();
+		previousNote = new Note(NoteName.C, 0);
 	}
 	
 	public void setAverageNoteDuration(double averageNoteDuration) {
@@ -202,6 +206,13 @@ public class MidiFileData {
 
 	public void addNote(Note note) {
 		if(note.getDuration() > 0){			
+			
+			int interval = Math.abs(previousNote.getDistance() - note.getDistance());
+			
+			int count = (intervals.containsKey(interval)) ? 
+			
+			
+			
 			if(highestNote.compareTo(note) < 0)
 				highestNote = note;
 			else if(lowestNote.compareTo(note) > 0 && note.compareTo(new Note(NoteName.Cs, 0)) > 0)
